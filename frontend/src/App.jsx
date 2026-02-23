@@ -22,6 +22,11 @@ import AddCourse from './pages/AddCourse'
 import EditCourse from './pages/EditCourse'
 import AddLecture from './pages/AddLecture'
 
+import TestPractice from './pages/TestPractice'
+import TestPracticeDetails from './pages/TestPracticeDetails'
+import TestInterface from './pages/TestInterface'
+import TestResults from './pages/TestResults'
+
 const RedirectToCourses = () => {
   const { id } = useParams();
   return <Navigate to={`/courses/${id}`} replace />;
@@ -45,6 +50,12 @@ const App = () => {
         <Route path='/reset-password/:token' element={<ResetPassword />} />
         <Route path='/paymentsuccess' element={<PaymentSuccess />} />
         <Route path='/dashboard' element={<Dashboard />} />
+
+        {/* Test Practice Routes */}
+        <Route path='/test-practice' element={<TestPractice />} />
+        <Route path='/test-practice/:id' element={<TestPracticeDetails />} />
+        <Route path='/test-interface/:id' element={<TestInterface />} />
+        <Route path='/test-results/:id' element={<TestResults />} />
 
         {/* Admin Routes */}
         <Route element={<AdminLayout />}>
