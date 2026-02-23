@@ -68,8 +68,8 @@ const Contact = () => {
 
     const contactInfo = [
         { icon: Phone, label: "Call Us", value: "+91 98765 43210", color: "text-cyan-400" },
-        { icon: Mail, label: "Email Us", value: "support@skillforge.com", color: "text-purple-400" },
-        { icon: MapPin, label: "Visit Us", value: "SkillForge Tower, Tech Hub, Bangalore", color: "text-pink-400" },
+        { icon: Mail, label: "Email Us", value: "support@eduplatform.com", color: "text-purple-400" },
+        { icon: MapPin, label: "Visit Us", value: "EduPlatform Tower, Tech Hub, Bangalore", color: "text-pink-400" },
         { icon: Clock, label: "Hours", value: "Mon - Sat: 9:00 AM - 7:00 PM", color: "text-blue-400" },
     ];
 
@@ -125,7 +125,7 @@ const Contact = () => {
                             {/* Additional Card */}
                             <div className="p-8 rounded-3xl bg-gradient-to-br from-purple-600/20 to-blue-600/20 border border-white/10 backdrop-blur-md relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-400/10 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-cyan-400/20 transition-all duration-500" />
-                                <h4 className="text-xl font-bold text-white mb-4">Why SkillForge?</h4>
+                                <h4 className="text-xl font-bold text-white mb-4">Why EduPlatform?</h4>
                                 <ul className="space-y-3">
                                     {["24/7 Expert Support", "Dedicated Mentorship", "Lifetime Course Access"].map((feat, i) => (
                                         <li key={i} className="flex items-center gap-3 text-gray-300 text-sm">

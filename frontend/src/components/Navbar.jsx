@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import logo from '../assets/logo.png';
-import { Home, BookOpen, BookMarked, Users, Phone, X, Menu, LogOut, User as UserIcon, LayoutDashboard } from 'lucide-react';
+import { Home, BookOpen, BookMarked, Users, Phone, X, Menu, LogOut, User as UserIcon, LayoutDashboard, ChevronDown, GraduationCap } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const navItems = [
     { to: '/', label: 'Home', icon: Home },
-    { to: '/courses', label: 'Courses', icon: BookOpen },
+    { to: '/courses', label: 'Courses', icon: BookOpen, hasChevron: true },
+    { to: '/my-learning', label: 'My Learning', icon: BookOpen },
+    { to: '/test-practice', label: 'Test Practice', icon: LayoutDashboard },
     { to: '/about', label: 'About Us', icon: BookMarked },
-    { to: '/faculty', label: 'Faculty', icon: Users },
-    { to: '/contact', label: 'Contact', icon: Phone },
 ];
 
 const Navbar = () => {
@@ -43,35 +43,38 @@ const Navbar = () => {
 
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                ? 'bg-[#0f0f2e]/95 backdrop-blur-md shadow-lg shadow-black/20'
-                : 'bg-[#0f0f2e]'
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${scrolled
+                ? 'bg-white/95 backdrop-blur-md shadow-sm border-gray-100'
+                : 'bg-white border-transparent'
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <NavLink to="/" className="flex items-center gap-2 group">
-                        <img src={logo} alt="SkillForge" className="w-8 h-8 rounded-lg" />
-                        <span className="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
-                            SkillForge
+                        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
+                            <GraduationCap className="text-white w-5 h-5" />
+                        </div>
+                        <span className="text-xl font-bold text-gray-900">
+                            EduPlatform
                         </span>
                     </NavLink>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:flex items-center gap-1">
+                    <div className="hidden md:flex items-center gap-2">
                         {navItems.map((item) => (
                             <NavLink
                                 key={item.to}
                                 to={item.to}
                                 className={({ isActive }) =>
-                                    `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive
-                                        ? 'bg-white/10 text-cyan-300'
-                                        : 'text-gray-300 hover:text-white hover:bg-white/5'
+                                    `px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1 ${isActive
+                                        ? 'text-blue-600'
+                                        : 'text-gray-600 hover:text-blue-600'
                                     }`
                                 }
                             >
                                 {item.label}
+                                {item.hasChevron && <ChevronDown className="w-4 h-4" />}
                             </NavLink>
                         ))}
                     </div>
@@ -129,13 +132,13 @@ const Navbar = () => {
                             <>
                                 <NavLink
                                     to="/login"
-                                    className="px-5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer"
+                                    className="px-5 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors cursor-pointer border border-gray-200 rounded-lg mr-2"
                                 >
                                     Login
                                 </NavLink>
                                 <NavLink
                                     to="/register"
-                                    className="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:shadow-lg hover:shadow-cyan-500/25 transition-all cursor-pointer"
+                                    className="px-6 py-2 text-sm font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all cursor-pointer shadow-sm"
                                 >
                                     Sign Up
                                 </NavLink>

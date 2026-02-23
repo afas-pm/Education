@@ -4,54 +4,54 @@ import {
     GraduationCap,
     BookOpen,
     Target,
-    Landmark,
-    ScrollText,
-    Code2,
+    Medal,
+    Crown,
+    Users,
     ChevronRight,
 } from "lucide-react";
 
 const programs = [
     {
-        icon: GraduationCap,
-        color: "bg-emerald-100 text-emerald-600",
+        icon: BookOpen,
+        color: "bg-[#4da1ff] text-white",
         title: "School Tuition",
-        desc: "Classes 1-12 covering CBSE, ICSE, and State syllabus.",
-        bullets: ["Interactive Live Classes", "Exam Cracking Sessions", "Regular Assessments"],
+        desc: "Classes 4-12 covering CBSE, ICSE, and State syllabus",
+        bullets: ["Interactive Live Classes", "Doubt Clearing Sessions", "Regular Assessments"],
     },
     {
-        icon: BookOpen,
-        color: "bg-blue-100 text-blue-600",
+        icon: GraduationCap,
+        color: "bg-[#a855f7] text-white",
         title: "College Tuition",
-        desc: "BSc, BCom, BA, and other degree program support.",
-        bullets: ["Subject Experts", "Flexible Learning", "Practical Sessions"],
+        desc: "BSc, BCom, BA, BTech and other degree programs",
+        bullets: ["Subject Experts", "Practical Learning", "Project Guidance"],
     },
     {
         icon: Target,
-        color: "bg-orange-100 text-orange-600",
+        color: "bg-[#22c55e] text-white",
         title: "Entrance Coaching",
-        desc: "NEET, JEE, CLAT, CUET preparation.",
-        bullets: ["Mock Tests", "Previous Year Papers", "Doubt Clearing"],
+        desc: "NEET, JEE, KEAM, CUET preparation",
+        bullets: ["Mock Tests", "Previous Year Papers", "Rank Prediction"],
     },
     {
-        icon: Landmark,
-        color: "bg-red-100 text-red-600",
+        icon: Medal,
+        color: "bg-[#f97316] text-white",
         title: "Government Exams",
-        desc: "SSC, Bank, PSC, Railway exam preparation.",
+        desc: "SSC, Bank, PSC, Railway exam preparation",
         bullets: ["Current Affairs", "Speed Training", "Interview Prep"],
     },
     {
-        icon: ScrollText,
-        color: "bg-purple-100 text-purple-600",
+        icon: Crown,
+        color: "bg-[#ef4444] text-white",
         title: "UPSC Coaching",
-        desc: "Prelims, Mains, Interviews, Optional subjects.",
-        bullets: ["Comprehensive Coverage", "Essay Writing", "Personality Tests"],
+        desc: "Prelims, Mains, Interview, Optional subjects",
+        bullets: ["Comprehensive Coverage", "Essay Writing", "Personality Dev"],
     },
     {
-        icon: Code2,
-        color: "bg-cyan-100 text-cyan-600",
+        icon: Users,
+        color: "bg-[#06b6d4] text-white",
         title: "Skill Development",
-        desc: "Professional skills and certification courses.",
-        bullets: ["Industry Relevant", "Hands-on Practice", "Career Guidance"],
+        desc: "Professional skills and certification courses",
+        bullets: ["Industry Relevant", "Hands-on Practice", "Certificate"],
     },
 ];
 
@@ -82,7 +82,7 @@ const LearningPrograms = () => {
                                 className="group bg-white border border-gray-100 rounded-xl p-6 shadow-sm hover:shadow-lg hover:border-blue-200 transition-all duration-300 hover:-translate-y-1"
                             >
                                 {/* Icon */}
-                                <div className={`w-12 h-12 ${p.color} rounded-xl flex items-center justify-center mb-4`}>
+                                <div className={`w-12 h-12 ${p.color} rounded-xl flex items-center justify-center mb-6`}>
                                     <Icon className="w-6 h-6" />
                                 </div>
 
@@ -102,10 +102,9 @@ const LearningPrograms = () => {
                                 {/* Link */}
                                 <button
                                     onClick={() => navigate("/courses")}
-                                    className="text-blue-600 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all duration-300 cursor-pointer"
+                                    className="w-full py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold text-sm rounded-lg border border-gray-100 transition-all duration-300 cursor-pointer"
                                 >
                                     Explore Courses
-                                    <ChevronRight className="w-4 h-4" />
                                 </button>
                             </div>
                         );

@@ -38,7 +38,8 @@ const AdminDashboard = () => {
                     <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
                         Dashboard Overview
                     </h1>
-                    <p className="text-slate-400 mt-2">Welcome back! Here's what's happening with SkillForge today.</p>
+                    <p className="text-slate-400 mt-2">Welcome back! Here's what's happening with EduPlatform today.</p>
+
                 </div>
             </div>
 

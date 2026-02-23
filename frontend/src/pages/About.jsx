@@ -87,7 +87,7 @@ const About = () => {
                             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
                                 About{" "}
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400">
-                                    SkillForge
+                                    EduPlatform
                                 </span>
                             </h1>
                             <p className="text-blue-100/80 text-base sm:text-lg max-w-md leading-relaxed">
@@ -115,7 +115,7 @@ const About = () => {
                         <div className="flex justify-center md:justify-end">
                             <img
                                 src={AboutBannerImage}
-                                alt="About SkillForge"
+                                alt="About EduPlatform"
                                 className="w-full max-w-sm md:max-w-md rounded-2xl shadow-2xl shadow-purple-500/20 object-cover"
                             />
                         </div>

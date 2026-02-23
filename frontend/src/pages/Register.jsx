@@ -52,7 +52,7 @@ const Register = () => {
                     <div className="inline-flex items-center justify-center w-12 h-12 bg-white/10 rounded-2xl mb-4 border border-white/20">
                         <User className="w-6 h-6 text-cyan-400" />
                     </div>
-                    <h2 className="text-3xl font-bold text-white mb-2">Join SkillForge</h2>
+                    <h2 className="text-3xl font-bold text-white mb-2">Join EduPlatform</h2>
                     <p className="text-blue-100/60 text-sm">Start your learning journey today</p>
                 </div>
 
@@ -163,7 +163,7 @@ const Register = () => {
             {/* Logo Link */}
             <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-white/60 hover:text-white transition-colors">
                 <Sparkles className="w-5 h-5 text-cyan-400" />
-                <span className="font-bold tracking-tight">SkillForge</span>
+                <span className="font-bold tracking-tight">EduPlatform</span>
             </Link>
         </div>
     );

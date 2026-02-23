@@ -10,53 +10,60 @@ const Testimonials = () => {
         <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-12 md:mb-14">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                <div className="text-center mb-16 md:mb-20">
+                    <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 font-sans">
                         Success Stories
                     </h2>
-                    <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-base">
+                    <p className="text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">
                         Hear from our students who achieved their dreams with our guidance
                     </p>
                 </div>
 
-                {/* Testimonials Grid — 3x2 */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {testimonials.map((t) => (
                         <div
                             key={t.id}
-                            className="bg-gray-50 border border-gray-100 rounded-xl p-5 sm:p-6 hover:shadow-md hover:border-blue-100 transition-all duration-300"
+                            className="bg-white border border-gray-100 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 flex flex-col shadow-sm"
                         >
-                            {/* Quote icon */}
-                            <div className="text-4xl font-serif text-yellow-400 leading-none mb-2 select-none">"</div>
-
-                            {/* Stars */}
-                            <div className="flex items-center gap-0.5 mb-3">
-                                {Array.from({ length: 5 }).map((_, i) => (
-                                    <Star
-                                        key={i}
-                                        className={`w-4 h-4 ${i < Math.round(t.rating)
-                                                ? "text-yellow-400 fill-yellow-400"
-                                                : "text-gray-300"
-                                            }`}
-                                    />
-                                ))}
+                            {/* Header row: Quote & Stars */}
+                            <div className="flex justify-between items-start mb-6">
+                                <Quote className="w-10 h-10 text-gray-800 rotate-180" />
+                                <div className="flex items-center gap-0.5">
+                                    {Array.from({ length: 5 }).map((_, i) => (
+                                        <Star
+                                            key={i}
+                                            className="w-4 h-4 text-yellow-500 fill-yellow-500"
+                                        />
+                                    ))}
+                                </div>
                             </div>
 
                             {/* Message */}
-                            <p className="text-gray-600 text-sm leading-relaxed mb-5 italic">
+                            <p className="text-gray-500 text-base leading-relaxed mb-8 italic">
                                 "{t.message}"
                             </p>
 
-                            {/* Author */}
-                            <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                                <img
-                                    src={t.avatar}
-                                    alt={t.name}
-                                    className="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm"
-                                />
-                                <div className="min-w-0">
-                                    <p className="text-sm font-semibold text-gray-900 truncate">{t.name}</p>
-                                    <p className="text-xs text-gray-500 truncate">{t.role}</p>
+                            <div className="mt-auto">
+                                {/* Divider */}
+                                <div className="h-px bg-gray-100 w-full mb-6" />
+
+                                {/* Author & Pin row */}
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <img
+                                            src={t.avatar}
+                                            alt={t.name}
+                                            className="w-12 h-12 rounded-full object-cover"
+                                        />
+                                        <div className="min-w-0">
+                                            <p className="text-sm font-bold text-gray-900 truncate">{t.name}</p>
+                                            <p className="text-[11px] text-gray-400 font-medium truncate">{t.role}</p>
+                                        </div>
+                                    </div>
+                                    {/* Tag/Badge */}
+                                    <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-lg border border-blue-100">
+                                        {t.tag}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -64,19 +71,22 @@ const Testimonials = () => {
                 </div>
 
                 {/* CTA buttons */}
-                <div className="flex flex-wrap justify-center gap-4 mt-10">
-                    <button
-                        onClick={() => navigate("/courses")}
-                        className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg text-sm hover:shadow-lg transition-all cursor-pointer"
-                    >
-                        Explore Courses
-                    </button>
-                    <button
-                        onClick={() => navigate("/about")}
-                        className="px-6 py-3 bg-white border border-gray-200 text-gray-700 font-semibold rounded-lg text-sm hover:shadow-md hover:border-blue-300 transition-all cursor-pointer"
-                    >
-                        View All Success Stories
-                    </button>
+                <div className="flex flex-col items-center gap-6 mt-16">
+                    <p className="text-gray-500 text-sm font-medium">Join thousands of successful students</p>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <button
+                            onClick={() => navigate("/courses")}
+                            className="px-10 py-3.5 bg-[#017CBA] text-white font-bold rounded-xl text-sm hover:bg-blue-700 transition-all cursor-pointer shadow-lg shadow-blue-500/10"
+                        >
+                            Explore Courses
+                        </button>
+                        <button
+                            onClick={() => navigate("/about")}
+                            className="px-8 py-3.5 bg-white border-2 border-blue-500 text-blue-600 font-bold rounded-xl text-sm hover:bg-blue-50 transition-all cursor-pointer"
+                        >
+                            View All Success Stories
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>

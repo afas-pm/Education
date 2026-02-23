@@ -1,18 +1,18 @@
 import React from "react";
-import { Smartphone, Download, Bell, BookOpenCheck, BarChart3 } from "lucide-react";
+import { Download, Star, TabletSmartphone } from "lucide-react";
 
 const appFeatures = [
-    { icon: Download, text: "Offline video downloads" },
-    { icon: Bell, text: "Push notifications for classes" },
-    { icon: BookOpenCheck, text: "In-app practice tests" },
-    { icon: BarChart3, text: "Progress tracking & analytics" },
+    { text: "Offline video downloads" },
+    { text: "Push notifications for classes" },
+    { text: "Interactive practice tests" },
+    { text: "Progress tracking & analytics" },
 ];
 
 const MobileAppCTA = () => {
     return (
         <section
-            className="relative py-16 md:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
-            style={{ background: "linear-gradient(135deg, #1a1a4e 0%, #2d1b69 40%, #4c1d95 70%, #1e3a5f 100%)" }}
+            className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+            style={{ background: "linear-gradient(113.42deg, #017CBA 6.46%, #7928CA 46.65%, #DB0082 86.84%)" }}
         >
             {/* Decorative */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
@@ -22,105 +22,106 @@ const MobileAppCTA = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
                     {/* Left Content */}
                     <div className="text-white space-y-6">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
                             Take Your Learning<br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400">
-                                Anywhere with Our App
-                            </span>
+                            Anywhere with Our App
                         </h2>
-                        <p className="text-blue-100/70 text-sm sm:text-base max-w-md leading-relaxed">
-                            Download the SkillForge mobile app and access all your
+                        <p className="text-blue-50/80 text-base sm:text-lg max-w-lg leading-relaxed">
+                            Download the EduPlatform mobile app and access all your
                             courses, live classes, and study materials on the go.
                         </p>
 
                         {/* Feature list */}
-                        <ul className="space-y-3">
-                            {appFeatures.map((f) => {
-                                const Icon = f.icon;
-                                return (
-                                    <li key={f.text} className="flex items-center gap-3 text-white/90 text-sm sm:text-base">
-                                        <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <Icon className="w-4 h-4 text-cyan-300" />
-                                        </div>
-                                        {f.text}
-                                    </li>
-                                );
-                            })}
+                        <ul className="space-y-4">
+                            {appFeatures.map((f) => (
+                                <li key={f.text} className="flex items-center gap-3 text-white text-base">
+                                    <div className="w-1.5 h-1.5 bg-white rounded-full flex-shrink-0" />
+                                    {f.text}
+                                </li>
+                            ))}
                         </ul>
 
-                        {/* App store buttons */}
-                        <div className="flex flex-wrap gap-3 pt-2">
-                            <a
-                                href="#"
-                                className="inline-flex items-center gap-2 bg-white text-gray-900 px-5 py-3 rounded-lg font-semibold text-sm hover:bg-gray-100 transition-colors shadow-lg"
-                            >
-                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                                </svg>
-                                App Store
-                            </a>
-                            <a
-                                href="#"
-                                className="inline-flex items-center gap-2 bg-white text-gray-900 px-5 py-3 rounded-lg font-semibold text-sm hover:bg-gray-100 transition-colors shadow-lg"
-                            >
-                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.313-1.707L20.5 12l-2.689 1.5-2.566-2.5 2.567-2.5zM5.863 2.658l10.937 6.334-2.302 2.302-8.635-8.636z" />
-                                </svg>
-                                Google Play
-                            </a>
+                        {/* Rating block */}
+                        <div className="flex items-center gap-2 text-white/90 pt-2">
+                            <div className="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+                                <Star className="w-3.5 h-3.5 text-white fill-current" />
+                            </div>
+                            <span className="text-sm font-medium">4.8/5 on App Store & Play Store</span>
                         </div>
 
-                        <p className="text-white/40 text-xs">
-                            Available on App Store & Play Store
-                        </p>
+                        {/* App store buttons */}
+                        <div className="flex flex-wrap gap-4 pt-4">
+                            <button className="bg-black text-white px-4 py-2 rounded-lg border border-white/20 flex items-center gap-2 hover:bg-gray-900 transition-all">
+                                <div className="bg-white/10 p-1.5 rounded-md">
+                                    <Download className="w-4 h-4" />
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-[10px] uppercase leading-none opacity-70">Download on the</p>
+                                    <p className="text-sm font-bold leading-tight">App Store</p>
+                                </div>
+                            </button>
+                            <button className="bg-black text-white px-4 py-2 rounded-lg border border-white/20 flex items-center gap-2 hover:bg-gray-900 transition-all">
+                                <div className="bg-white/10 p-1.5 rounded-md">
+                                    <Download className="w-4 h-4" />
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-[10px] uppercase leading-none opacity-70">Get it on</p>
+                                    <p className="text-sm font-bold leading-tight">Google Play</p>
+                                </div>
+                            </button>
+                        </div>
                     </div>
 
                     {/* Right — Phone mockup */}
-                    <div className="flex justify-center md:justify-end">
+                    <div className="flex justify-center items-center relative">
+                        {/* Star floating icon */}
+                        <div className="absolute top-0 right-0 lg:right-4 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg transform translate-x-1/2 -translate-y-1/2 z-20">
+                            <Star className="w-6 h-6 text-white fill-current" />
+                        </div>
+
+                        {/* Download floating icon */}
+                        <div className="absolute bottom-10 left-0 lg:left-12 w-12 h-12 bg-green-500 rounded-full flex items-center justify-center shadow-lg transform -translate-x-1/2 z-20">
+                            <Download className="w-6 h-6 text-white" />
+                        </div>
+
                         <div className="relative w-64 sm:w-72 md:w-80">
                             {/* Phone frame */}
-                            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-[2.5rem] p-3 shadow-2xl shadow-purple-500/20 border border-gray-700">
-                                <div className="bg-white rounded-[2rem] overflow-hidden">
-                                    {/* Screen content */}
-                                    <div className="p-4 space-y-3">
-                                        {/* Status bar */}
-                                        <div className="flex justify-between items-center text-xs text-gray-400 mb-2">
+                            <div className="bg-white rounded-[2.5rem] p-3 shadow-2xl border-4 border-gray-900">
+                                <div className="bg-gray-50 rounded-[2rem] overflow-hidden border border-gray-200">
+                                    <div className="p-4 py-6 space-y-4">
+                                        <div className="flex justify-between items-center text-[10px] text-gray-500 font-bold mb-4">
                                             <span>9:41</span>
-                                            <div className="flex gap-1">
-                                                <span>📶</span><span>🔋</span>
+                                            <div className="flex gap-1.5 mt-[-2px]">
+                                                <div className="w-1 h-3 bg-gray-300 rounded-full" />
+                                                <div className="w-1.5 h-3 bg-gray-300 rounded-full" />
+                                                <div className="w-2.5 h-3 bg-gray-400 rounded-full" />
                                             </div>
                                         </div>
-                                        {/* App header */}
-                                        <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl p-4 text-white">
-                                            <p className="font-bold text-sm">SkillForge</p>
-                                            <p className="text-[10px] text-white/70 mt-1">Your learning companion</p>
+
+                                        <div className="flex justify-between items-center mb-6">
+                                            <p className="font-bold text-gray-800 text-lg">EduPlatform</p>
+                                            <TabletSmartphone className="w-5 h-5 text-blue-600" />
                                         </div>
-                                        {/* Cards */}
-                                        <div className="space-y-2">
-                                            <div className="bg-gray-50 rounded-lg p-3">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                                                        <BookOpenCheck className="w-4 h-4 text-blue-600" />
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-xs font-semibold text-gray-800">Live Class Starting</p>
-                                                        <p className="text-[10px] text-gray-500">React Masterclass • 2:00 PM</p>
-                                                    </div>
-                                                </div>
+
+                                        <div className="space-y-3">
+                                            <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                                <p className="text-blue-700 font-bold text-[13px]">Live Class Starting</p>
+                                                <p className="text-[11px] text-gray-600 font-medium">Mathematics - 10:00 AM</p>
                                             </div>
-                                            <div className="bg-gray-50 rounded-lg p-3">
-                                                <p className="text-[11px] font-semibold text-gray-800 mb-1">Today's Practice</p>
-                                                <div className="w-full bg-gray-200 rounded-full h-2">
-                                                    <div className="bg-gradient-to-r from-green-400 to-emerald-500 h-2 rounded-full w-3/4"></div>
-                                                </div>
-                                                <p className="text-[10px] text-gray-500 mt-1">75% completed</p>
+
+                                            <div className="bg-gray-100 rounded-xl p-4 border border-gray-200">
+                                                <p className="text-gray-800 font-bold text-[13px]">Today's Practice</p>
+                                                <p className="text-[11px] text-gray-600">5 questions remaining</p>
+                                            </div>
+
+                                            <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                                <p className="text-emerald-700 font-bold text-[13px]">Test Results</p>
+                                                <p className="text-[11px] text-gray-600">Score: 85/100</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {/* Floating dot */}
-                            <div className="absolute -bottom-3 -right-3 w-8 h-8 bg-green-400 rounded-full shadow-lg shadow-green-400/40 animate-bounce" />
                         </div>
                     </div>
                 </div>

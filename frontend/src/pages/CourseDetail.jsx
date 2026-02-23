@@ -525,11 +525,11 @@ const CourseDetail = () => {
                                     ) : (
                                         <div className={s.pricingAmount}>
                                             <span className={s.pricingCurrent}>
-                                                ₹{(course.price?.sale * 83).toLocaleString()}
+                                                ₹{(course.price?.sale).toLocaleString()}
                                             </span>
                                             {course.price?.original && (
-                                                <span className={s.pricingOriginal}>
-                                                    ₹{(course.price.original * 83).toLocaleString()}
+                                                <span className="text-lg text-gray-400 line-through font-medium">
+                                                    ₹{(course.price.original).toLocaleString()}
                                                 </span>
                                             )}
                                         </div>

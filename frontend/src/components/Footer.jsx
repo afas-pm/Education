@@ -1,72 +1,50 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-  socialIcons,
-  quickLinks,
-  supportLinks,
-  contactInfo,
-} from "../assets/dummyFooter";
-import {
+  GraduationCap,
+  Facebook,
   Twitter,
   Instagram,
-  Linkedin,
-  MapPin,
-  Phone,
+  Youtube,
   Mail,
+  Phone,
+  MapPin,
 } from "lucide-react";
 
-const socialIconMap = { Twitter, Instagram, Linkedin };
+// No external imports needed for links as per screenshot
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0f0f2e] text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+    <footer className="bg-[#020617] text-gray-300 font-sans border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
+
           {/* Brand Column */}
-          <div>
-            <h2 className="text-xl font-bold text-white mb-3">SkillForge</h2>
-            <p className="text-gray-400 text-sm leading-relaxed mb-5">
-              Empowering students with quality
-              education to excel in academics and
-              competitive examinations.
+          <div className="p-8">
+            <div className="flex items-center gap-2 mb-6">
+              <GraduationCap className="w-8 h-8 text-white" />
+              <h2 className="text-xl font-bold text-white">EduPlatform</h2>
+            </div>
+            <p className="text-gray-400 text-sm leading-relaxed mb-8 pr-4">
+              Empowering students with quality education through comprehensive online tuition and coaching programs.
             </p>
             {/* Social Icons */}
-            <div className="flex items-center gap-3">
-              {socialIcons.map((s) => {
-                const Icon = socialIconMap[s.iconKey] || Twitter;
-                return (
-                  <a
-                    key={s.name}
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-200"
-                    aria-label={s.name}
-                  >
-                    <Icon className="w-4 h-4 text-gray-300" />
-                  </a>
-                );
-              })}
+            <div className="flex items-center gap-4">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><Facebook className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><Twitter className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><Instagram className="w-5 h-5" /></a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors"><Youtube className="w-5 h-5" /></a>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2.5">
-              {[
-                { name: "School Tuition", href: "/courses" },
-                { name: "College Tuition", href: "/courses" },
-                { name: "Entrance Coaching", href: "/courses" },
-                { name: "Government Exams", href: "/courses" },
-                { name: "UPSC Coaching", href: "/courses" },
-              ].map((link) => (
-                <li key={link.name}>
-                  <Link
-                    to={link.href}
-                    className="text-gray-400 hover:text-cyan-300 text-sm transition-colors duration-200"
-                  >
-                    {link.name}
+          <div className="p-8">
+            <h3 className="text-white text-lg font-bold mb-6">Quick Links</h3>
+            <ul className="space-y-4">
+              {["School Tuition", "College Tuition", "Entrance Coaching", "Government Exams", "UPSC Coaching"].map((link) => (
+                <li key={link}>
+                  <Link to="/courses" className="text-gray-400 hover:text-white text-sm transition-colors">
+                    {link}
                   </Link>
                 </li>
               ))}
@@ -74,16 +52,13 @@ const Footer = () => {
           </div>
 
           {/* Support */}
-          <div>
-            <h3 className="text-white font-semibold mb-4">Support</h3>
-            <ul className="space-y-2.5">
-              {supportLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-cyan-300 text-sm transition-colors duration-200"
-                  >
-                    {link.name}
+          <div className="p-8">
+            <h3 className="text-white text-lg font-bold mb-6">Support</h3>
+            <ul className="space-y-4">
+              {["Help Center", "FAQ", "Contact Us", "Privacy Policy", "Terms of Service"].map((link) => (
+                <li key={link}>
+                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+                    {link}
                   </a>
                 </li>
               ))}
@@ -91,21 +66,21 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div>
-            <h3 className="text-white font-semibold mb-4">Contact Info</h3>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-400 text-sm break-all">{contactInfo.email}</span>
+          <div className="p-8">
+            <h3 className="text-white text-lg font-bold mb-6">Contact Info</h3>
+            <div className="space-y-5">
+              <div className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-blue-400" />
+                <span className="text-gray-400 text-sm">support@eduplatform.com</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-blue-400" />
+                <span className="text-gray-400 text-sm">+91 98765 43210</span>
               </div>
               <div className="flex items-start gap-3">
-                <Phone className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-400 text-sm">{contactInfo.phone}</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-400 text-sm">
-                  {contactInfo.addressLine1}, {contactInfo.city}
+                <MapPin className="w-5 h-5 text-blue-400 mt-0.5" />
+                <span className="text-gray-400 text-sm leading-relaxed">
+                  Mumbai, Maharashtra, India
                 </span>
               </div>
             </div>
@@ -113,20 +88,9 @@ const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-gray-500 text-xs text-center sm:text-left">
-            © 2024 SkillForge. All rights reserved.
-          </p>
-          <p className="text-gray-500 text-xs">
-            Designed by{" "}
-            <a
-              href={contactInfo.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-cyan-400 hover:text-cyan-300 transition-colors"
-            >
-              {contactInfo.designBy}
-            </a>
+        <div className="mt-12 pt-8 border-t border-white/10 text-center">
+          <p className="text-gray-500 text-xs tracking-wider">
+            © 2024 EduPlatform. All rights reserved. | Designed for Excellence in Education
           </p>
         </div>
       </div>

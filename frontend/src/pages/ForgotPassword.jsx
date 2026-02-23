@@ -106,7 +106,8 @@ const ForgotPassword = () => {
             {/* Logo Link */}
             <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-white/60 hover:text-white transition-colors">
                 <Sparkles className="w-5 h-5 text-cyan-400" />
-                <span className="font-bold tracking-tight">SkillForge</span>
+                <span className="font-bold tracking-tight">EduPlatform</span>
+
             </Link>
         </div>
     );

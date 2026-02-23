@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import bannerimg from "../assets/BannerImage2.png";
+import bannerimg from "../assets/Container.png";
 import bannerVideo from "../assets/BannerVideo.mp4";
 import { useNavigate } from "react-router-dom";
-import { Play, X } from "lucide-react";
+import { Play, X, Star, Users, BookOpen } from "lucide-react";
 
 const HeroBanner = () => {
     const navigate = useNavigate();
@@ -11,9 +11,10 @@ const HeroBanner = () => {
     return (
         <>
             <section
-                className="relative min-h-[520px] md:min-h-[560px] lg:min-h-[600px] flex items-center overflow-hidden"
-                style={{ background: "linear-gradient(135deg, #ae1b75 0%, #762391 35%, #2856c4 70%, #0c829e 100%)" }}
+                className="relative pt-16 min-h-[520px] md:min-h-[560px] lg:min-h-[600px] flex items-center overflow-hidden"
+                style={{ background: "linear-gradient(113.42deg, #DB0082 6.46%, #017CBA 66.65%)" }}
             >
+
                 {/* Decorative blobs */}
                 <div className="absolute top-0 left-0 w-72 h-72 bg-purple-600/15 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
                 <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
@@ -23,20 +24,11 @@ const HeroBanner = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
                         {/* Left Content */}
                         <div className="space-y-6 text-white">
-                            {/* Live badge */}
-                            <div className="inline-flex items-center gap-2 bg-white/8 backdrop-blur-sm border border-white/15 rounded-full px-4 py-2 text-sm">
-                                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                                <span className="text-white/80">Live Classes Available</span>
-                            </div>
 
                             <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.4rem] font-bold leading-tight tracking-tight">
                                 Master Your{" "}
-                                <span className="relative inline-block">
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300">
-                                        Academic Goals
-                                    </span>
-                                    <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full" />
-                                </span>
+                                <br />
+                                <span className="text-[#00d1ff]">Academic Goals</span>
                                 <br />
                                 with Expert Guidance
                             </h1>
@@ -48,58 +40,48 @@ const HeroBanner = () => {
                             </p>
 
                             {/* Stat badges */}
-                            <div className="flex flex-wrap gap-3 text-sm">
-                                <div className="flex items-center gap-2 bg-white/8 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
-                                    <span className="text-yellow-400">★</span>
-                                    <span className="text-white/80">4.8 Rating</span>
+                            <div className="flex flex-wrap gap-6 text-sm">
+                                <div className="flex items-center gap-2">
+                                    <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                                    <span className="text-white font-medium">4.9/5 Rating</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/8 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
-                                    <span className="text-white/90">10,000+</span>
-                                    <span className="text-white/50">Students</span>
+                                <div className="flex items-center gap-2">
+                                    <Users className="w-5 h-5 text-blue-400" />
+                                    <span className="text-white font-medium">50,000+ Students</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/8 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
-                                    <span className="text-white/90">500+</span>
-                                    <span className="text-white/50">Courses</span>
+                                <div className="flex items-center gap-2">
+                                    <BookOpen className="w-5 h-5 text-orange-400" />
+                                    <span className="text-white font-medium">500+ Courses</span>
                                 </div>
                             </div>
 
                             {/* CTA buttons */}
-                            <div className="flex flex-wrap gap-4 pt-2">
+                            <div className="flex flex-wrap gap-4 pt-4">
                                 <button
                                     onClick={() => navigate("/courses")}
-                                    className="px-7 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold rounded-lg shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/30 hover:-translate-y-0.5 cursor-pointer"
+                                    className="px-8 py-3 bg-[#017CBA] hover:bg-[#016ba3] text-white font-semibold rounded-lg shadow-lg transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
                                 >
                                     Explore Courses
                                 </button>
                                 <button
                                     onClick={() => setShowVideo(true)}
-                                    className="px-7 py-3 bg-white/8 hover:bg-white/15 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-lg transition-all duration-300 hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+                                    className="px-8 py-3 bg-white text-[#017CBA] border border-gray-200 font-semibold rounded-lg shadow-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
                                 >
-                                    <Play className="w-4 h-4 fill-white" />
+                                    <Play className="w-4 h-4 fill-[#017CBA] text-[#017CBA]" />
                                     Watch Demo
                                 </button>
                             </div>
                         </div>
 
                         {/* Right — Student Image */}
-                        <div className="relative flex justify-center md:justify-end">
-                            {/* Percentage badge */}
-                            <div className="absolute bottom-6 right-2 md:right-8 z-20 bg-white rounded-2xl shadow-2xl p-3 sm:p-4 text-center">
-                                <div className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
-                                    98%
-                                </div>
-                                <div className="text-[10px] sm:text-xs text-gray-500 font-medium">Success Rate</div>
-                            </div>
-
-                            <div className="relative w-full max-w-[280px] sm:max-w-xs md:max-w-sm lg:max-w-md">
-                                <div className="absolute inset-0 bg-gradient-to-t from-purple-600/20 to-transparent rounded-2xl" />
-                                <img
-                                    src={bannerimg}
-                                    alt="Student learning"
-                                    className="w-full h-auto rounded-2xl shadow-2xl object-cover"
-                                />
-                            </div>
+                        <div className="relative w-full max-w-[584px]">
+                            <img
+                                src={bannerimg}
+                                alt="Student learning"
+                                className="w-[584px] h-[389.52px] rounded-[16px] object-cover"
+                            />
                         </div>
+
                     </div>
                 </div>
             </section>

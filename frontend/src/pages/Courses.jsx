@@ -225,11 +225,11 @@ const Courses = () => {
                                                         ) : (
                                                             <>
                                                                 <span className={coursePageStyles.priceCurrent}>
-                                                                    ₹{((course.price?.sale || 0) * 83).toLocaleString()}
+                                                                    ₹{(course.price?.sale || 0).toLocaleString()}
                                                                 </span>
                                                                 {course.price?.original && (
                                                                     <span className={coursePageStyles.priceOriginal}>
-                                                                        ₹{((course.price.original || 0) * 83).toLocaleString()}
+                                                                        ₹{(course.price.original || 0).toLocaleString()}
                                                                     </span>
                                                                 )}
                                                             </>
