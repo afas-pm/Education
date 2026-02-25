@@ -57,6 +57,17 @@ export const examQuestions = [
             { id: 'D', text: "Mitochondria" }
         ],
         subject: "Biology"
+    },
+        {
+        id: 3,
+        question: "What is the primary site of photosynthesis in plants?",
+        options: [
+            { id: 'A', text: "Stems" },
+            { id: 'B', text: "Roots" },
+            { id: 'C', text: "Chloroplasts" },
+            { id: 'D', text: "Mitochondria" }
+        ],
+        subject: "Biology"
     }
     // More questions added during implementation...
 ];
