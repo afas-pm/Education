@@ -38,38 +38,49 @@ export const availableTests = [
 export const examQuestions = [
     {
         id: 1,
-        question: "Which of the following is the powerhouse of the cell?",
+        question: "Which organelle is known as the powerhouse of the cell?",
         options: [
             { id: 'A', text: "Nucleus" },
             { id: 'B', text: "Mitochondria" },
             { id: 'C', text: "Ribosome" },
-            { id: 'D', text: "Endoplasmic Reticulum" }
+            { id: 'D', text: "Golgi apparatus" }
         ],
-        subject: "Biology"
+        subject: "physics",
+        correctAnswer: "B",
+        userAnswer: "B",
+        marks: 4,
+        explanation: "Mitochondria are known as the powerhouse of the cell because they generate most of the cell's supply of adenosine triphosphate (ATP), used as a source of chemical energy."
     },
     {
         id: 2,
-        question: "What is the primary site of photosynthesis in plants?",
+        question: "What is the function of ribosomes?",
         options: [
-            { id: 'A', text: "Stems" },
-            { id: 'B', text: "Roots" },
-            { id: 'C', text: "Chloroplasts" },
-            { id: 'D', text: "Mitochondria" }
+            { id: 'A', text: "DNA replication" },
+            { id: 'B', text: "Protein synthesis" },
+            { id: 'C', text: "Lipid synthesis" },
+            { id: 'D', text: "ATP production" }
         ],
-        subject: "Biology"
+        subject: "physics",
+        correctAnswer: "B",
+        userAnswer: "B",
+        marks: 4,
+        explanation: "Ribosomes are the sites in a cell in which protein synthesis takes place."
     },
-        {
+    {
         id: 3,
-        question: "What is the primary site of photosynthesis in plants?",
+        question: "Which process occurs in the chloroplasts?",
         options: [
-            { id: 'A', text: "Stems" },
-            { id: 'B', text: "Roots" },
-            { id: 'C', text: "Chloroplasts" },
-            { id: 'D', text: "Mitochondria" }
+            { id: 'A', text: "Respiration" },
+            { id: 'B', text: "Photosynthesis" },
+            { id: 'C', text: "Fermentation" },
+            { id: 'D', text: "Glycolysis" }
         ],
-        subject: "Biology"
+        subject: "physics",
+        correctAnswer: "B",
+        userAnswer: "A",
+        marks: 4,
+        explanation: "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods from carbon dioxide and water. Photosynthesis in plants generally involves the green pigment chlorophyll and generates oxygen as a byproduct."
     }
-    // More questions added during implementation...
 ];
 
 export const mockResults = {
