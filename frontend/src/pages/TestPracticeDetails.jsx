@@ -57,13 +57,14 @@ const TestPracticeDetails = () => {
                 <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Header */}
                     <div className="mb-12 flex flex-col md:flex-row md:items-start justify-between gap-6">
-                        <div>
-                            <h1 className="text-[32px] font-bold text-[#1E293B] mb-1">Test Practice</h1>
-                            <p className="text-[#64748B] text-lg mb-8">Practice with mock tests and improve your preparation</p>
-
-                            <h2 className="text-[22px] font-bold text-[#475569] mb-1">{title}</h2>
-                            <p className="text-[#64748B] text-[17px]">Choose your practice type</p>
-                        </div>
+                    <div className="mb-12">
+                        <h1 className="text-[32px] font-bold text-[#1E293B] mb-3">
+                            Test Practice
+                        </h1>
+                        <p className="text-[17px] text-[#64748B]">
+                            Practice with mock tests and improve your preparation
+                        </p>
+                    </div>
                         <button
                             onClick={() => navigate("/test-practice")}
                             className="inline-flex items-center gap-2 px-6 py-2.5 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:bg-gray-50 transition-all shadow-sm"

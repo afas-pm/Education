@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { testStats, availableTests } from "../assets/dummyTestPractice";
 import { BookOpen, CheckCircle, BarChart3, Clock, Star } from "lucide-react";
@@ -7,14 +7,28 @@ import Footer from "../components/Footer";
 
 const TestPractice = () => {
     const navigate = useNavigate();
-    const navRef = useRef(null);
-    const [navHeight, setNavHeight] = useState(0);
 
-    // ✅ Measure the wrapper div that contains NavbarDesign directly
-    // This is more reliable than document.querySelector("nav")
-    useEffect(() => {
-        if (navRef.current) {
-            setNavHeight(navRef.current.offsetHeight);
+    // ─────────────────────────────────────────────────────────────────
+    // NavbarDesign is position:fixed so its wrapper has 0 DOM height.
+    // useLayoutEffect fires synchronously after the browser paints,
+    // so the fixed navbar is already in its final position.
+    // getBoundingClientRect().bottom gives the exact pixel where
+    // the fixed navbar ends — use that as the spacer height.
+    // ─────────────────────────────────────────────────────────────────
+    const [navHeight, setNavHeight] = useState(70); // sensible fallback
+
+    useLayoutEffect(() => {
+        // Try the most common fixed-navbar selectors in order
+        const selectors = ["nav", "header", "[class*='navbar']", "[class*='Navbar']"];
+        for (const sel of selectors) {
+            const el = document.querySelector(sel);
+            if (el) {
+                const rect = el.getBoundingClientRect();
+                if (rect.height > 0) {
+                    setNavHeight(rect.bottom); // bottom = distance from viewport top
+                    return;
+                }
+            }
         }
     }, []);
 
@@ -32,13 +46,10 @@ const TestPractice = () => {
     return (
         <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
 
-            {/* ✅ Wrap NavbarDesign in a ref div so we can measure its exact height */}
-            <div ref={navRef}>
-                <NavbarDesign />
-            </div>
+            <NavbarDesign />
 
-            {/* ✅ Spacer height = exact navbar height measured from the DOM */}
-            <div style={{ height: navHeight }} className="shrink-0" />
+            {/* ✅ Spacer: height = navbar's bottom edge in viewport = exact clearance needed */}
+            <div style={{ height: navHeight, flexShrink: 0 }} />
 
             <main className="flex-grow py-10 pb-20">
                 <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
