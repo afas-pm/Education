@@ -62,7 +62,7 @@ const TestPracticeDetails = () => {
                             <p className="text-[#64748B] text-lg mb-8">Practice with mock tests and improve your preparation</p>
 
                             <h2 className="text-[22px] font-bold text-[#475569] mb-1">{title}</h2>
-                            <p className="text-[#64748B] text-[15px]">Choose your practice type</p>
+                            <p className="text-[#64748B] text-[17px]">Choose your practice type</p>
                         </div>
                         <button
                             onClick={() => navigate("/test-practice")}
