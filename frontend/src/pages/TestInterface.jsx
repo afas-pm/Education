@@ -293,7 +293,7 @@ const TestInterface = () => {
                         {/* ── Right: Sidebar ── */}
                         <div className="lg:col-span-4 self-start">
                             <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                                <h4 className="text-[11px] font-bold uppercase tracking-widest text-[#64748B] mb-4">
+                                <h4 className="text-[16px] font-bold text-black mb-4">
                                     Question Navigation
                                 </h4>
 

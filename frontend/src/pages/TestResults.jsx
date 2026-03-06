@@ -64,8 +64,8 @@ const TestResults = () => {
                         <button
                             onClick={() => setActiveTab("analysis")}
                             className={`flex-1 flex items-center justify-center gap-2 py-3 text-[13px] font-bold rounded-lg transition-all ${activeTab === "analysis"
-                                    ? "bg-white text-gray-900 shadow-sm"
-                                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
+                                ? "bg-white text-gray-900 shadow-sm"
+                                : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                                 }`}
                         >
                             <BarChart2 className="w-4 h-4" />
@@ -74,8 +74,8 @@ const TestResults = () => {
                         <button
                             onClick={() => setActiveTab("review")}
                             className={`flex-1 flex items-center justify-center gap-2 py-3 text-[13px] font-bold rounded-lg transition-all ${activeTab === "review"
-                                    ? "bg-white text-gray-900 shadow-sm"
-                                    : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
+                                ? "bg-white text-gray-900 shadow-sm"
+                                : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
                                 }`}
                         >
                             <RefreshCcw className="w-4 h-4" />
@@ -87,7 +87,7 @@ const TestResults = () => {
                         ANALYSIS TAB
                     ══════════════════════════════════════ */}
                     {activeTab === "analysis" ? (
-                        <div className="space-y-6">
+                        <div className="space-y-6 pb-20">
 
                             {/* ── Row 1: 4 Summary Cards ── */}
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -103,11 +103,11 @@ const TestResults = () => {
                                 </div>
 
                                 <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 text-center">
-                                    <p className="text-[36px] font-black text-[#017CBA] leading-none mb-1">
+                                    <p className="text-[36px] font-black text-[#2563EB] leading-none mb-1">
                                         {mockResults.percentage}%
                                     </p>
                                     <p className="text-[11px] text-gray-400 font-medium mb-2">Percentage</p>
-                                    <span className="inline-block px-3 py-0.5 bg-[#017CBA] text-white text-[10px] font-bold rounded-md">
+                                    <span className="inline-block px-3 py-0.5 bg-[#017CBA] text-white text-[10px] font-bold rounded-full">
                                         Excellent
                                     </span>
                                 </div>
@@ -276,87 +276,89 @@ const TestResults = () => {
                         <div className="space-y-6">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-[20px] font-black text-[#1E293B]">Review Solutions</h2>
-                                <span className="px-4 py-1.5 bg-white border border-gray-200 text-[#64748B] text-[11px] font-bold uppercase tracking-widest rounded-full shadow-sm">
+                                <span className="px-3 py-1 bg-white border border-gray-200 text-[#64748B] text-[11px] font-bold rounded-lg shadow-sm">
                                     {examQuestions.length} Questions
                                 </span>
                             </div>
 
-                            {/* ✅ Review cards: same col-span-8 width as question card in TestInterface */}
-                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                                <div className="lg:col-span-8 space-y-5">
-                                    {examQuestions.map((q, idx) => (
+                            {/* ✅ Review cards: full width (col-span-12) to match Figma 717 */}
+                            <div className="flex flex-col gap-5">
+                                {examQuestions.map((q, idx) => {
+                                    const isQuestionCorrect = q.userAnswer === q.correctAnswer;
+                                    const cardBorderColor = isQuestionCorrect ? "border-[#BBF7D0]" : "border-[#BBF7D0]";
+                                    const cardBgColor = isQuestionCorrect ? "bg-[#EFF6FF]" : "bg-[#EFF6FF]";
+
+                                    return (
                                         <div
                                             key={q.id}
-                                            className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm hover:shadow-md transition-all"
+                                            className={`rounded-2xl border ${cardBorderColor} ${cardBgColor} p-6 shadow-[0px_1px_2px_0px_#0000000D]`}
                                         >
                                             {/* Question Header */}
-                                            <div className="flex items-center justify-between mb-6">
-                                                <div className="flex items-center gap-3">
-                                                    <div className={`w-9 h-9 rounded-full flex items-center justify-center border-2 ${
-                                                        q.userAnswer === q.correctAnswer
-                                                            ? "bg-emerald-50 border-emerald-100 text-emerald-500"
-                                                            : "bg-red-50 border-red-100 text-red-500"
-                                                    }`}>
-                                                        {q.userAnswer === q.correctAnswer
+                                            <div className="flex items-center justify-between mb-5">
+                                                <div className="flex items-center gap-2">
+                                                    <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${isQuestionCorrect
+                                                        ? "bg-emerald-50 border-emerald-200 text-emerald-500"
+                                                        : "bg-red-50 border-red-200 text-red-500"
+                                                        }`}>
+                                                        {isQuestionCorrect
                                                             ? <CheckCircle2 className="w-4 h-4" />
                                                             : <XCircle className="w-4 h-4" />
                                                         }
                                                     </div>
-                                                    <h3 className="text-[16px] font-bold text-[#1E293B]">
+                                                    <h3 className="text-[15px] font-bold text-[#1E293B]">
                                                         Question {idx + 1}
                                                     </h3>
                                                 </div>
                                                 <div className="flex items-center gap-2">
-                                                    <span className="px-3 py-1 bg-[#F1F5F9] text-[#64748B] text-[11px] font-bold rounded-lg border border-[#E2E8F0]">
+                                                    <span className="text-[#64748B] text-[11px] font-bold">
                                                         {q.subject}
                                                     </span>
-                                                    <span className="px-3 py-1 bg-orange-500 text-white text-[11px] font-bold rounded-lg">
+                                                    <span className="px-3 py-1 bg-orange-500 text-white text-[10px] font-bold rounded-full">
                                                         {q.marks} marks
                                                     </span>
                                                 </div>
                                             </div>
 
                                             {/* Question Text */}
-                                            <p className="text-[15px] font-semibold text-[#475569] mb-6 leading-relaxed">
+                                            <p className="text-[14px] font-semibold text-[#1E293B] mb-5 leading-relaxed">
                                                 {q.question}
                                             </p>
 
                                             {/* Options */}
-                                            <div className="flex flex-col gap-2.5 mb-6">
+                                            <div className="flex flex-col gap-2.5 mb-5">
                                                 {q.options.map((opt) => {
-                                                    const isCorrect    = opt.id === q.correctAnswer;
+                                                    const isCorrect = opt.id === q.correctAnswer;
                                                     const isUserChoice = opt.id === q.userAnswer;
-                                                    const isWrong      = isUserChoice && !isCorrect;
+                                                    const isWrong = isUserChoice && !isCorrect;
+
+                                                    // Option container styling based on Figma
+                                                    let optionBgClass = "bg-white border-white";
+                                                    let optionTextClass = "text-[#475569]";
+
+                                                    if (isCorrect) {
+                                                        optionBgClass = "bg-[#BBF7D0] border-[#4ADE80]";
+                                                        optionTextClass = "text-green-800";
+                                                    } else if (isWrong) {
+                                                        optionBgClass = "bg-[#FECACA] border-[#F87171]";
+                                                        optionTextClass = "text-red-800";
+                                                    }
+
                                                     return (
                                                         <div
                                                             key={opt.id}
-                                                            className={`flex items-center justify-between px-5 py-3.5 rounded-xl border-2 transition-all ${
-                                                                isCorrect
-                                                                    ? "bg-green-50 border-green-200"
-                                                                    : isWrong
-                                                                    ? "bg-red-50 border-red-200"
-                                                                    : "bg-white border-gray-100"
-                                                            }`}
+                                                            className={`flex items-center justify-between px-5 py-3.5 rounded-lg border ${optionBgClass} shadow-[0px_1px_2px_0px_#0000000D] transition-all`}
                                                         >
                                                             <div className="flex items-center gap-3">
-                                                                <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-bold shrink-0 ${
-                                                                    isCorrect
-                                                                        ? "bg-green-100 text-green-700"
-                                                                        : isWrong
-                                                                        ? "bg-red-100 text-red-700"
-                                                                        : "bg-[#EEF2F6] text-[#64748B]"
-                                                                }`}>
-                                                                    {opt.id}
-                                                                </div>
-                                                                <span className={`text-[13px] font-medium ${
-                                                                    isCorrect ? "text-green-700" : isWrong ? "text-red-700" : "text-[#475569]"
-                                                                }`}>
+                                                                <span className={`text-[13px] font-bold ${optionTextClass}`}>
+                                                                    {opt.id}.
+                                                                </span>
+                                                                <span className={`text-[13px] font-medium ${optionTextClass}`}>
                                                                     {opt.text}
                                                                 </span>
                                                             </div>
                                                             <div className="flex items-center gap-2">
                                                                 {isCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
-                                                                {isWrong   && <XCircle      className="w-4 h-4 text-red-500" />}
+                                                                {isWrong && <XCircle className="w-4 h-4 text-red-500" />}
                                                             </div>
                                                         </div>
                                                     );
@@ -364,35 +366,29 @@ const TestResults = () => {
                                             </div>
 
                                             {/* Footer */}
-                                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-5 border-t border-gray-100">
-                                                <div className="flex items-center gap-3 text-[12px] font-semibold text-[#94A3B8]">
-                                                    <span>
-                                                        Your answer:{" "}
-                                                        <span className={q.userAnswer === q.correctAnswer ? "text-emerald-600" : "text-red-500"}>
-                                                            {q.userAnswer}
-                                                        </span>
-                                                    </span>
-                                                    <span className="w-1 h-1 bg-gray-300 rounded-full" />
-                                                    <span>
-                                                        Correct answer:{" "}
-                                                        <span className="text-emerald-600">{q.correctAnswer}</span>
-                                                    </span>
+                                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-4">
+                                                <div className="flex items-center gap-2 text-[11px] font-medium text-[#64748B]">
+                                                    <span>Your answer: {q.userAnswer}</span>
+                                                    <span className="w-0.5 h-3 bg-[#CBD5E1]" />
+                                                    <span>Correct answer: {q.correctAnswer}</span>
                                                 </div>
                                                 <button
                                                     onClick={() => toggleExplanation(q.id)}
-                                                    className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-[12px] font-semibold text-[#475569] hover:bg-gray-50 transition-all shadow-sm"
+                                                    className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-[11px] font-bold text-[#475569] shadow-sm hover:bg-gray-50 transition-all"
                                                 >
-                                                    {expandedExplanations[q.id]
-                                                        ? <ChevronUp   className="w-3.5 h-3.5" />
-                                                        : <ChevronDown className="w-3.5 h-3.5" />
-                                                    }
+                                                    <div className="flex items-center justify-center p-0.5 bg-gray-100 rounded-full">
+                                                        {expandedExplanations[q.id]
+                                                            ? <ChevronUp className="w-3 h-3" />
+                                                            : <ChevronDown className="w-3 h-3" />
+                                                        }
+                                                    </div>
                                                     {expandedExplanations[q.id] ? "Hide Explanation" : "Show Explanation"}
                                                 </button>
                                             </div>
 
                                             {/* Explanation */}
                                             {expandedExplanations[q.id] && (
-                                                <div className="mt-4 p-5 bg-blue-50 border border-blue-100 rounded-xl">
+                                                <div className="mt-4 p-5 bg-white border border-gray-100 shadow-inner rounded-xl">
                                                     <h4 className="text-[10px] font-black text-[#017CBA] uppercase tracking-widest mb-2">
                                                         Explanation
                                                     </h4>
@@ -402,51 +398,8 @@ const TestResults = () => {
                                                 </div>
                                             )}
                                         </div>
-                                    ))}
-                                </div>
-
-                                {/* ✅ Sticky summary sidebar on review tab — col-span-4 */}
-                                <div className="lg:col-span-4 self-start" style={{ position: "sticky", top: navHeight + 16 }}>
-                                    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-                                        <h4 className="text-[13px] font-bold text-[#1E293B] mb-4">Summary</h4>
-                                        <div className="space-y-3 mb-5">
-                                            <div className="flex items-center justify-between">
-                                                <span className="flex items-center gap-2 text-[13px] text-[#64748B]">
-                                                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                                                    Correct
-                                                </span>
-                                                <span className="text-[13px] font-bold text-emerald-600">
-                                                    {mockResults.analysis.correct}
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between">
-                                                <span className="flex items-center gap-2 text-[13px] text-[#64748B]">
-                                                    <XCircle className="w-4 h-4 text-red-500" />
-                                                    Incorrect
-                                                </span>
-                                                <span className="text-[13px] font-bold text-red-500">
-                                                    {mockResults.analysis.incorrect}
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between">
-                                                <span className="flex items-center gap-2 text-[13px] text-[#64748B]">
-                                                    <Clock className="w-4 h-4 text-gray-400" />
-                                                    Skipped
-                                                </span>
-                                                <span className="text-[13px] font-bold text-[#94A3B8]">
-                                                    {mockResults.analysis.skipped}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <button
-                                            onClick={() => setActiveTab("analysis")}
-                                            className="w-full py-2.5 flex items-center justify-center gap-2 border border-gray-200 rounded-lg text-[13px] font-semibold text-[#475569] bg-white hover:bg-gray-50 transition-all"
-                                        >
-                                            <BarChart2 className="w-4 h-4 text-[#64748B]" />
-                                            Back to Analysis
-                                        </button>
-                                    </div>
-                                </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     )}
