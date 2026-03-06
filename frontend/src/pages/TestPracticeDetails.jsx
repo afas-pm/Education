@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Zap, Target, History, FileText, CheckCircle, Brain, ChevronRight } from "lucide-react";
 import NavbarDesign from "../components/NavbarDesign";
@@ -39,18 +39,30 @@ const TestPracticeDetails = () => {
         "Chemistry", "English"
     ];
 
+    const [navHeight, setNavHeight] = useState(70);
+
+    useEffect(() => {
+        const el = document.querySelector("nav") || document.querySelector("header");
+        if (el) setNavHeight(el.offsetHeight);
+    }, []);
+
     return (
         <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
             <NavbarDesign />
 
-            <main className="flex-grow pt-28 pb-20">
+            {/* ✅ Spacer to push content below fixed navbar */}
+            <div style={{ height: navHeight }} className="shrink-0" />
+
+            <main className="flex-grow py-8 pb-20">
                 <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Header */}
                     <div className="mb-12 flex flex-col md:flex-row md:items-start justify-between gap-6">
                         <div>
-                            <h1 className="text-[32px] font-bold text-[#1E293B] mb-3">Test Practice</h1>
-                            <h2 className="text-2xl font-bold text-[#475569] mb-2">{title}</h2>
-                            <p className="text-[#64748B] text-lg">Choose your practice type</p>
+                            <h1 className="text-[32px] font-bold text-[#1E293B] mb-1">Test Practice</h1>
+                            <p className="text-[#64748B] text-lg mb-8">Practice with mock tests and improve your preparation</p>
+
+                            <h2 className="text-[22px] font-bold text-[#475569] mb-1">{title}</h2>
+                            <p className="text-[#64748B] text-[15px]">Choose your practice type</p>
                         </div>
                         <button
                             onClick={() => navigate("/test-practice")}

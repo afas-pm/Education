@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { testStats, availableTests } from "../assets/dummyTestPractice";
 import { BookOpen, CheckCircle, BarChart3, Clock, Star } from "lucide-react";
@@ -7,6 +7,13 @@ import Footer from "../components/Footer";
 
 const TestPractice = () => {
     const navigate = useNavigate();
+
+    const [navHeight, setNavHeight] = useState(70);
+
+    useEffect(() => {
+        const el = document.querySelector("nav") || document.querySelector("header");
+        if (el) setNavHeight(el.offsetHeight);
+    }, []);
 
     const getIcon = (iconName, color) => {
         const iconClass = "w-7 h-7";
@@ -23,7 +30,10 @@ const TestPractice = () => {
         <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
             <NavbarDesign />
 
-            <main className="flex-grow pt-28 pb-20">
+            {/* ✅ Spacer to push content below fixed navbar */}
+            <div style={{ height: navHeight }} className="shrink-0" />
+
+            <main className="flex-grow py-8 pb-20">
                 <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Header */}
                     <div className="mb-12">
