@@ -32,7 +32,9 @@ const Footer = () => {
                             <h2 className="text-[18px] font-bold text-white">EduPlatform</h2>
                         </div>
                         <p className="text-[14px] text-gray-400 leading-relaxed mb-6">
-                            Empowering students with quality education through comprehensive online tuition and coaching programs.
+                            Empowering students with quality education <br />
+                            through comprehensive online tuition <br />
+                            and coaching programs.
                         </p>
                         <div className="flex items-center gap-4">
                             {[Facebook, Twitter, Instagram, Youtube].map((Icon, i) => (
