@@ -7,8 +7,8 @@ const Testimonials = () => {
     const navigate = useNavigate();
 
     return (
-        <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
-            <div className="max-w-7xl mx-auto">
+        <section className="py-16 md:py-20 bg-white">
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div className="text-center mb-16 md:mb-20">
                     <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 font-sans">

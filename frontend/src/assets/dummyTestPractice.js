@@ -1,13 +1,13 @@
 export const testStats = [
-    { label: "Tests Taken", value: "25", color: "text-blue-600", bg: "bg-blue-50" },
-    { label: "Questions Solved", value: "850", color: "text-emerald-600", bg: "bg-emerald-50" },
-    { label: "Average Score", value: "82%", color: "text-purple-600", bg: "bg-purple-50" },
-    { label: "Practice Time", value: "45h", color: "text-orange-600", bg: "bg-orange-50" },
+    { label: "Tests Taken", value: "25", color: "text-blue-600", bg: "bg-white", icon: "book-open" },
+    { label: "Questions Solved", value: "850", color: "text-emerald-600", bg: "bg-white", icon: "check" },
+    { label: "Average Score", value: "82%", color: "text-blue-500", bg: "bg-white", icon: "bar-chart" },
+    { label: "Practice Time", value: "45h", color: "text-orange-600", bg: "bg-white", icon: "clock" },
 ];
 
 export const availableTests = [
     {
-        id: "neet-2024",
+        id: "neet-2024-bio",
         title: "NEET Mock Test 2024 - Biology",
         difficulty: "High",
         questions: 180,
@@ -38,7 +38,7 @@ export const availableTests = [
 export const examQuestions = [
     {
         id: 1,
-        question: "Which organelle is known as the powerhouse of the cell?",
+        question: "Which of the following is known as the powerhouse of the cell?",
         options: [
             { id: 'A', text: "Nucleus" },
             { id: 'B', text: "Mitochondria" },
@@ -80,7 +80,7 @@ export const examQuestions = [
         userAnswer: "A",
         marks: 4,
         explanation: "Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods from carbon dioxide and water. Photosynthesis in plants generally involves the green pigment chlorophyll and generates oxygen as a byproduct."
-    }
+    },
 ];
 
 export const mockResults = {

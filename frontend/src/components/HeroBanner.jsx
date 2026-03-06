@@ -14,26 +14,23 @@ const HeroBanner = () => {
                 className="relative pt-16 min-h-[520px] md:min-h-[560px] lg:min-h-[600px] flex items-center overflow-hidden"
                 style={{ background: "linear-gradient(113.42deg, #DB0082 6.46%, #017CBA 66.65%)" }}
             >
-
                 {/* Decorative blobs */}
                 <div className="absolute top-0 left-0 w-72 h-72 bg-purple-600/15 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
                 <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
                 <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-cyan-500/8 rounded-full blur-2xl" />
 
-                <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+                <div className="relative z-10 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 md:py-16">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
                         {/* Left Content */}
                         <div className="space-y-6 text-white">
-
-                            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.4rem] font-bold leading-tight tracking-tight">
-                                Master Your{" "}
-                                <br />
-                                <span className="text-[#00d1ff]">Academic Goals</span>
-                                <br />
-                                with Expert Guidance
+                            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.4rem] font-bold leading-tight tracking-tight text-white mb-6">
+                                Master Your <br />
+                                <span className="text-[#017CBA]">Academic Goals</span> <br />
+                                with Expert <br />
+                                Guidance
                             </h1>
 
-                            <p className="text-base sm:text-lg text-blue-100/60 max-w-lg leading-relaxed">
+                            <p className="text-base sm:text-lg text-white max-w-lg leading-relaxed">
                                 From school tuition to competitive exam preparation, get
                                 personalized online coaching that adapts to your learning
                                 style and schedule.
@@ -42,7 +39,7 @@ const HeroBanner = () => {
                             {/* Stat badges */}
                             <div className="flex flex-wrap gap-6 text-sm">
                                 <div className="flex items-center gap-2">
-                                    <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+                                    <Star className="w-5 h-5 text-yellow-400" strokeWidth={2.5} />
                                     <span className="text-white font-medium">4.9/5 Rating</span>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -73,15 +70,14 @@ const HeroBanner = () => {
                             </div>
                         </div>
 
-                        {/* Right — Student Image */}
-                        <div className="relative w-full max-w-[584px]">
+                        {/* Right — Student Image (fills full grid column, right edge aligns with navbar Sign Up) */}
+                        <div className="relative w-full">
                             <img
                                 src={bannerimg}
                                 alt="Student learning"
-                                className="w-[584px] h-[389.52px] rounded-[16px] object-cover"
+                                className="w-full h-auto object-cover block"
                             />
                         </div>
-
                     </div>
                 </div>
             </section>

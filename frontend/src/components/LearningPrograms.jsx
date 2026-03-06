@@ -4,10 +4,9 @@ import {
     GraduationCap,
     BookOpen,
     Target,
-    Medal,
+    Award,
     Crown,
     Users,
-    ChevronRight,
 } from "lucide-react";
 
 const programs = [
@@ -15,7 +14,7 @@ const programs = [
         icon: BookOpen,
         color: "bg-[#4da1ff] text-white",
         title: "School Tuition",
-        desc: "Classes 4-12 covering CBSE, ICSE, and State syllabus",
+        desc: "Classes 4-12 covering CBSE, ICSE, and State syllabi",
         bullets: ["Interactive Live Classes", "Doubt Clearing Sessions", "Regular Assessments"],
     },
     {
@@ -33,7 +32,7 @@ const programs = [
         bullets: ["Mock Tests", "Previous Year Papers", "Rank Prediction"],
     },
     {
-        icon: Medal,
+        icon: Award,
         color: "bg-[#f97316] text-white",
         title: "Government Exams",
         desc: "SSC, Bank, PSC, Railway exam preparation",
@@ -59,53 +58,57 @@ const LearningPrograms = () => {
     const navigate = useNavigate();
 
     return (
-        <section className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
-            <div className="max-w-7xl mx-auto">
+        <section className="pt-20 pb-48 md:pt-24 md:pb-56 bg-white overflow-hidden">
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
-                <div className="text-center mb-12 md:mb-16">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                <div className="text-center mb-16 md:mb-20">
+                    <h2 className="text-3xl sm:text-4xl md:text-[2.5rem] font-bold text-[#1e293b] mb-4 leading-tight">
                         Comprehensive Learning Programs
                     </h2>
-                    <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-base">
+                    <p className="text-[#64748b] max-w-2xl mx-auto text-base sm:text-lg">
                         Choose from our wide range of courses designed to help you achieve your
                         academic and career goals
                     </p>
                 </div>
 
                 {/* Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
                     {programs.map((p) => {
                         const Icon = p.icon;
                         return (
                             <div
                                 key={p.title}
-                                className="group bg-white border border-gray-100 rounded-xl p-6 shadow-sm hover:shadow-lg hover:border-blue-200 transition-all duration-300 hover:-translate-y-1"
+                                className="group bg-white border border-gray-100 rounded-[24px] p-8 shadow-[0_4px_20px_0_rgba(0,0,0,0.05)] hover:shadow-[0_10px_30px_0_rgba(0,0,0,0.08)] transition-all duration-500 flex flex-col h-full"
                             >
-                                {/* Icon */}
-                                <div className={`w-12 h-12 ${p.color} rounded-xl flex items-center justify-center mb-6`}>
-                                    <Icon className="w-6 h-6" />
+                                {/* Icon Container (Soft rounded square) */}
+                                <div className={`w-14 h-14 ${p.color} rounded-[16px] flex items-center justify-center mb-6 shadow-lg shadow-current/10`}>
+                                    <Icon className="w-7 h-7" />
                                 </div>
 
-                                <h3 className="text-lg font-bold text-gray-900 mb-2">{p.title}</h3>
-                                <p className="text-gray-500 text-sm mb-4 leading-relaxed">{p.desc}</p>
+                                <div className="flex-grow">
+                                    <h3 className="text-xl font-bold text-[#1e293b] mb-3">{p.title}</h3>
+                                    <p className="text-[#64748b] text-sm mb-6 leading-relaxed">{p.desc}</p>
 
-                                {/* Bullets */}
-                                <ul className="space-y-2 mb-5">
-                                    {p.bullets.map((b) => (
-                                        <li key={b} className="flex items-center gap-2 text-sm text-gray-600">
-                                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full flex-shrink-0" />
-                                            {b}
-                                        </li>
-                                    ))}
-                                </ul>
+                                    {/* Bullets */}
+                                    <ul className="space-y-3 mb-8">
+                                        {p.bullets.map((b) => (
+                                            <li key={b} className="flex items-center gap-3 text-[14px] text-[#475569] font-medium font-sans">
+                                                <div className="w-[6px] h-[6px] bg-[#017CBA] rounded-full flex-shrink-0" />
+                                                {b}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
 
-                                {/* Link */}
-                                <button
-                                    onClick={() => navigate("/courses")}
-                                    className="w-full py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold text-sm rounded-lg border border-gray-100 transition-all duration-300 cursor-pointer"
-                                >
-                                    Explore Courses
-                                </button>
+                                {/* Explore Courses Button — Matching Figma Design */}
+                                <div className="mt-auto">
+                                    <button
+                                        onClick={() => navigate("/courses")}
+                                        className="w-full sm:w-auto px-6 py-2.5 bg-white border border-gray-100 hover:border-blue-100 text-[#1e293b] font-bold text-xs rounded-xl shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center cursor-pointer group-hover:bg-gray-50 font-sans"
+                                    >
+                                        Explore Courses
+                                    </button>
+                                </div>
                             </div>
                         );
                     })}

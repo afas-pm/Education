@@ -51,41 +51,36 @@ const StatsSection = () => {
     return (
         <section
             ref={ref}
-            className="relative py-16 md:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
-            style={{ background: "linear-gradient(135deg, #06b6d4 0%, #2563eb 100%)" }}
+            className="relative w-full bg-[#017CBA] overflow-hidden mb-16 md:mb-24"
         >
-            {/* Decorative */}
-            <div className="absolute top-0 left-1/4 w-64 h-64 bg-purple-500/15 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
-
-            <div className="relative z-10 max-w-7xl mx-auto">
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-[80px] min-h-[586px] flex flex-col justify-center">
                 {/* Header */}
-                <div className="text-center mb-12">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
+                <div className="text-center mb-16 md:mb-20">
+                    <h2 className="text-3xl sm:text-4xl md:text-[40px] font-bold text-white mb-4 tracking-tight">
                         Trusted by Thousands of Students
                     </h2>
-                    <p className="text-blue-200/70 max-w-xl mx-auto text-sm sm:text-base">
+                    <p className="text-blue-100/80 max-w-2xl mx-auto text-base sm:text-lg font-medium">
                         Our numbers speak for the quality of education we provide
                     </p>
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
                     {stats.map((stat, idx) => {
                         const Icon = stat.icon;
                         return (
-                            <div key={stat.label} className="text-center group">
-                                <div className="w-14 h-14 mx-auto mb-4 bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl flex items-center justify-center group-hover:bg-white/20 transition-all duration-300">
-                                    <Icon className="w-6 h-6 text-cyan-300" />
+                            <div key={stat.label} className="text-center group flex flex-col items-center">
+                                <div className="w-14 h-14 mb-6 bg-[#ffffff1a] backdrop-blur-md rounded-2xl flex items-center justify-center transition-all duration-500">
+                                    <Icon className="w-7 h-7 text-white/90" strokeWidth={1.5} />
                                 </div>
-                                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">
+                                <div className="text-4xl sm:text-5xl md:text-[52px] font-bold text-white mb-2 tabular-nums tracking-tighter">
                                     {counts[idx].toLocaleString()}
                                     {stat.suffix}
                                 </div>
-                                <div className="text-white/90 font-medium text-sm sm:text-base mb-0.5">
+                                <div className="text-white font-bold text-base sm:text-lg mb-1">
                                     {stat.label}
                                 </div>
-                                <div className="text-blue-200/50 text-xs sm:text-sm">
+                                <div className="text-blue-100/60 text-[13px] font-medium">
                                     {stat.sublabel}
                                 </div>
                             </div>

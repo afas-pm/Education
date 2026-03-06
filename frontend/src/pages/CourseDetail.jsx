@@ -22,14 +22,12 @@ import {
     Loader2,
     Lock
 } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
+import { dummyCourses } from "../assets/dummyCourses";
 import { toast } from "react-toastify";
-import axios from "axios";
 
 const CourseDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { backendUrl, token, user: currentUser } = useAuth();
 
     const [course, setCourse] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -40,42 +38,56 @@ const CourseDetail = () => {
     const [completedChapters, setCompletedChapters] = useState([]);
     const [visible, setVisible] = useState(false);
 
+    // Default structure for fallback
+    const defaultLectures = [
+        {
+            id: "default-lec-1",
+            title: "Introduction",
+            durationMin: 30,
+            chapters: [
+                { id: "default-ch-1", name: "Welcome to the Course", topic: "Overview", durationMin: 10, videoUrl: "dQw4w9WgXcQ" },
+                { id: "default-ch-2", name: "Setting Goals", topic: "Preparation", durationMin: 20, videoUrl: "dQw4w9WgXcQ" }
+            ]
+        }
+    ];
+
     useEffect(() => {
-        const fetchCourseAndStatus = async () => {
+        const loadCourseData = () => {
+            setLoading(true);
             try {
-                setLoading(true);
-                // Fetch Course Details
-                const courseRes = await fetch(`${backendUrl}/api/course/${id}`);
-                const courseData = await courseRes.json();
+                // Find course in dummy data
+                const foundCourse = dummyCourses.find(c => c.id === id);
 
-                if (courseData.success) {
-                    setCourse(courseData.course);
+                if (foundCourse) {
+                    // Ensure it has lectures for the UI to work correctly
+                    const enrichedCourse = {
+                        ...foundCourse,
+                        lectures: foundCourse.lectures || defaultLectures,
+                        overview: foundCourse.overview || foundCourse.description || "Detailed overview coming soon..."
+                    };
+                    setCourse(enrichedCourse);
 
-                    // If logged in, fetch enrollment and progress
-                    if (token) {
-                        const userRes = await fetch(`${backendUrl}/api/user/my-courses`, {
-                            headers: { 'Authorization': `Bearer ${token}` }
-                        });
-                        const userData = await userRes.json();
-                        if (userData.success) {
-                            const enrolled = userData.courses.some(c => c._id === courseData.course._id || c.id === courseData.course.id);
-                            setIsEnrolled(enrolled);
-                            setCompletedChapters(userData.completedChapters || []);
-                        }
+                    // Load enrollment and progress from localStorage
+                    const localEnrollment = localStorage.getItem(`enrolled_${id}`);
+                    setIsEnrolled(!!localEnrollment);
+
+                    const localProgress = localStorage.getItem(`progress_${id}`);
+                    if (localProgress) {
+                        setCompletedChapters(JSON.parse(localProgress));
                     }
                 }
             } catch (error) {
-                console.error("Error fetching course detail:", error);
+                console.error("Error loading course detail:", error);
                 toast.error("Failed to load course details");
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchCourseAndStatus();
+        loadCourseData();
         window.scrollTo(0, 0);
         setTimeout(() => setVisible(true), 100);
-    }, [id, backendUrl, token]);
+    }, [id]);
 
     // Auto-select first chapter once course loads
     useEffect(() => {
@@ -88,92 +100,51 @@ const CourseDetail = () => {
         }
     }, [course]);
 
-    const handlePayment = async () => {
-        if (!token) {
-            toast.info("Please login to enroll");
-            navigate("/login");
-            return;
-        }
-
-        try {
-            setEnrolling(true);
-            const { data } = await axios.post(`${backendUrl}/api/payment/checkout`, {
-                courseId: course._id
-            }, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-
-            if (data.success && data.url) {
-                // Redirect to Stripe Checkout
-                window.location.href = data.url;
-            } else {
-                toast.error("Failed to initiate payment");
-                setEnrolling(false);
-            }
-        } catch (error) {
-            console.error("Payment Error:", error);
-            toast.error(error.response?.data?.message || "Failed to initiate payment");
+    const handlePayment = () => {
+        setEnrolling(true);
+        // Mock payment process
+        setTimeout(() => {
+            localStorage.setItem(`enrolled_${id}`, "true");
+            setIsEnrolled(true);
             setEnrolling(false);
-        }
+            toast.success("Payment Successful! You are now enrolled.");
+        }, 1500);
     };
 
-    const handleFreeEnroll = async () => {
-        if (!token) {
-            toast.info("Please login to enroll");
-            navigate("/login");
-            return;
-        }
-
-        try {
-            setEnrolling(true);
-            const { data } = await axios.post(`${backendUrl}/api/user/enroll`, {
-                courseId: course._id
-            }, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-
-            if (data.success) {
-                toast.success("Enrolled Successfully!");
-                setIsEnrolled(true);
-            } else {
-                toast.error(data.message || "Enrollment failed");
-            }
-        } catch (error) {
-            console.error("Enrollment Error:", error);
-            toast.error(error.response?.data?.message || "Enrollment failed");
-        } finally {
+    const handleFreeEnroll = () => {
+        setEnrolling(true);
+        // Mock free enrollment
+        setTimeout(() => {
+            localStorage.setItem(`enrolled_${id}`, "true");
+            setIsEnrolled(true);
             setEnrolling(false);
-        }
+            toast.success("Enrolled Successfully!");
+        }, 800);
     };
 
-    const toggleCompletion = async (chapterId) => {
-        if (!token || !isEnrolled) return;
+    const toggleCompletion = (chapterId) => {
+        if (!isEnrolled) {
+            toast.info("Enroll to track progress");
+            return;
+        }
 
         const isCurrentlyCompleted = completedChapters.includes(chapterId);
-
-        try {
-            const response = await fetch(`${backendUrl}/api/user/progress`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ chapterId, completed: !isCurrentlyCompleted })
-            });
-            const data = await response.json();
-            if (data.success) {
-                setCompletedChapters(data.completedChapters);
-            }
-        } catch (error) {
-            console.error("Error updating progress:", error);
+        let updated;
+        if (isCurrentlyCompleted) {
+            updated = completedChapters.filter(cid => cid !== chapterId);
+        } else {
+            updated = [...completedChapters, chapterId];
         }
+
+        setCompletedChapters(updated);
+        localStorage.setItem(`progress_${id}`, JSON.stringify(updated));
     };
 
     if (loading) {
         return (
             <div>
                 <Navbar />
-                <div className="flex flex-col justify-center items-center py-48 bg-slate-950">
+                <div className="flex flex-col justify-center items-center py-48 bg-slate-50">
                     <Loader2 className="w-12 h-12 text-indigo-500 animate-spin mb-4" />
                     <p className="text-gray-400 font-medium">Loading Course Details...</p>
                 </div>
@@ -205,7 +176,7 @@ const CourseDetail = () => {
         );
     }
 
-    const isFree = !!course.isFree || !course.price;
+    const isFree = !!course.isFree || !course.price || course.price.sale === 0;
     const canAccess = isFree || isEnrolled;
 
     const totalChaptersCount = course.lectures.reduce(
@@ -214,7 +185,7 @@ const CourseDetail = () => {
     );
 
     const courseChaptersIds = course.lectures.flatMap(lec => lec.chapters.map(ch => ch.id));
-    const completedCount = completedChapters.filter(id => courseChaptersIds.includes(id)).length;
+    const completedCount = completedChapters.filter(cid => courseChaptersIds.includes(cid)).length;
     const progressPerc = totalChaptersCount > 0 ? Math.round((completedCount / totalChaptersCount) * 100) : 0;
 
     const totalDuration = course.lectures.reduce(
@@ -224,20 +195,15 @@ const CourseDetail = () => {
 
     const getVideoEmbedUrl = (url) => {
         if (!url) return null;
-
-        // Handle raw 11-character YouTube IDs
-        if (url.length === 11 && !url.includes("/") && !url.includes(".")) {
-            return `https://www.youtube.com/embed/${url}`;
+        if (url.includes("youtube.com") || url.includes("youtu.be")) {
+            const ytMatch = url.match(
+                /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
+            );
+            return ytMatch ? `https://www.youtube.com/embed/${ytMatch[1]}` : url;
         }
-
-        const ytMatch = url.match(
-            /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
-        );
-        if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
-
-        // Return null or a safe fallback if not a valid URL/ID
-        if (url.startsWith("http")) return url;
-        return null;
+        // If it's just the ID
+        if (url.length === 11) return `https://www.youtube.com/embed/${url}`;
+        return url;
     };
 
     return (
@@ -248,7 +214,7 @@ const CourseDetail = () => {
             <div className={s.pageContainer}>
                 <div
                     className={`${s.mainContainer} ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                        }`}
+                        } transition-all duration-700`}
                 >
                     {/* Back Button */}
                     <button
@@ -278,6 +244,20 @@ const CourseDetail = () => {
                                 <h3 className={s.overviewTitle}>Course Overview</h3>
                             </div>
                             <p className={s.overviewText}>{course.overview}</p>
+
+                            {course.learningOutcomes && (
+                                <div className="mt-8">
+                                    <h4 className="text-lg font-bold text-gray-800 mb-4">What you'll learn:</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {course.learningOutcomes.map((outcome, idx) => (
+                                            <div key={idx} className="flex items-start gap-2">
+                                                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                                                <span className="text-gray-600 text-sm leading-relaxed">{outcome}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -301,7 +281,7 @@ const CourseDetail = () => {
 
                     {/* Main Grid */}
                     <div className={s.mainGrid}>
-                        {/* Video PlayerSection */}
+                        {/* Video Player Section */}
                         <div className={s.videoSection}>
                             <div className={s.videoContainer}>
                                 <div className={s.videoWrapper}>
@@ -348,7 +328,30 @@ const CourseDetail = () => {
                                 {/* Video Info */}
                                 {selectedChapter && (
                                     <div className={s.videoInfo}>
-                                        <h3 className={s.videoTitle}>{selectedChapter.name}</h3>
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className={s.videoTitle}>{selectedChapter.name}</h3>
+                                            {isEnrolled && (
+                                                <button
+                                                    onClick={() => toggleCompletion(selectedChapter.id)}
+                                                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${completedChapters.includes(selectedChapter.id)
+                                                            ? "bg-green-100 text-green-700 border border-green-200"
+                                                            : "bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200"
+                                                        }`}
+                                                >
+                                                    {completedChapters.includes(selectedChapter.id) ? (
+                                                        <>
+                                                            <CheckCircle className="w-4 h-4" />
+                                                            Completed
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Circle className="w-4 h-4" />
+                                                            Mark Complete
+                                                        </>
+                                                    )}
+                                                </button>
+                                            )}
+                                        </div>
                                         <p className={s.videoDescription}>
                                             {selectedChapter.topic}
                                         </p>
@@ -357,32 +360,7 @@ const CourseDetail = () => {
                                                 <Clock className={s.durationIcon} />
                                                 <span>{selectedChapter.durationMin} min</span>
                                             </div>
-                                            <span className={s.chapterBadge}>
-                                                Chapter {selectedChapter.id}
-                                            </span>
                                         </div>
-
-                                        {/* Completion Button */}
-                                        {isEnrolled && (
-                                            <div className={s.completionSection}>
-                                                <button
-                                                    onClick={() => toggleCompletion(selectedChapter.id)}
-                                                    className={`${s.completionButton} ${completedChapters.includes(selectedChapter.id)
-                                                        ? s.completionButtonCompleted
-                                                        : s.completionButtonIncomplete
-                                                        }`}
-                                                >
-                                                    {completedChapters.includes(selectedChapter.id) ? (
-                                                        <CheckCircle className={s.completionIcon} />
-                                                    ) : (
-                                                        <Circle className={s.completionIcon} />
-                                                    )}
-                                                    {completedChapters.includes(selectedChapter.id)
-                                                        ? "Completed"
-                                                        : "Mark as Complete"}
-                                                </button>
-                                            </div>
-                                        )}
                                     </div>
                                 )}
                             </div>
@@ -472,7 +450,6 @@ const CourseDetail = () => {
                                                                                     e.stopPropagation();
                                                                                     toggleCompletion(chapter.id);
                                                                                 }}
-                                                                                disabled={!isEnrolled}
                                                                                 className={`${s.chapterCompletionButton} ${isCompleted
                                                                                     ? s.chapterCompletionCompleted
                                                                                     : s.chapterCompletionNormal
@@ -525,10 +502,10 @@ const CourseDetail = () => {
                                     ) : (
                                         <div className={s.pricingAmount}>
                                             <span className={s.pricingCurrent}>
-                                                ₹{(course.price?.sale).toLocaleString()}
+                                                ₹{(course.price?.sale || 0).toLocaleString()}
                                             </span>
                                             {course.price?.original && (
-                                                <span className="text-lg text-gray-400 line-through font-medium">
+                                                <span className="text-lg text-gray-400 line-through font-medium ml-2">
                                                     ₹{(course.price.original).toLocaleString()}
                                                 </span>
                                             )}

@@ -48,13 +48,11 @@ const Navbar = () => {
                 : 'bg-white border-transparent'
                 }`}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <NavLink to="/" className="flex items-center gap-2 group">
-                        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-                            <GraduationCap className="text-white w-5 h-5" />
-                        </div>
+                        <GraduationCap className="w-8 h-8 text-blue-600" />
                         <span className="text-xl font-bold text-gray-900">
                             EduPlatform
                         </span>
@@ -132,13 +130,13 @@ const Navbar = () => {
                             <>
                                 <NavLink
                                     to="/login"
-                                    className="px-5 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors cursor-pointer border border-gray-200 rounded-lg mr-2"
+                                    className="px-6 py-2 text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors cursor-pointer border border-gray-200 rounded-[10px]"
                                 >
                                     Login
                                 </NavLink>
                                 <NavLink
                                     to="/register"
-                                    className="px-6 py-2 text-sm font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all cursor-pointer shadow-sm"
+                                    className="px-6 py-2 text-sm font-semibold bg-[#017CBA] text-white rounded-[10px] hover:bg-blue-700 transition-all cursor-pointer shadow-sm"
                                 >
                                     Sign Up
                                 </NavLink>

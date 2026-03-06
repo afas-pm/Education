@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Timer, Send, Flag, CheckCircle2, Circle, ChevronLeft, ChevronRight, Eraser, Save } from "lucide-react";
+import { Timer, Flag, ChevronLeft, ChevronRight } from "lucide-react";
 import { examQuestions } from "../assets/dummyTestPractice";
+import NavbarDesign from "../components/NavbarDesign";
+import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 const TestInterface = () => {
     const { id } = useParams();
@@ -9,14 +10,35 @@ const TestInterface = () => {
 
     const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
-    const [status, setStatus] = useState(new Array(examQuestions.length).fill('unvisited'));
-    const [timeLeft, setTimeLeft] = useState(5344); // 01:29:04 in seconds (demo)
+    const [status, setStatus] = useState(new Array(examQuestions.length).fill("unvisited"));
+    const [timeLeft, setTimeLeft] = useState(5344);
+    const [navHeight, setNavHeight] = useState(70); // default fallback
+
+    const navRef = useRef(null);
+
+    // Measure the actual navbar height so sub-header sticks right below it
+    useEffect(() => {
+        const el = document.querySelector("nav") || document.querySelector("header");
+        if (el) setNavHeight(el.offsetHeight);
+    }, []);
 
     const currentQuestion = examQuestions[currentQuestionIdx];
 
+    // Mark as visited on navigation
+    useEffect(() => {
+        setStatus((prev) => {
+            const updated = [...prev];
+            if (updated[currentQuestionIdx] === "unvisited") {
+                updated[currentQuestionIdx] = "visited";
+            }
+            return updated;
+        });
+    }, [currentQuestionIdx]);
+
+    // Countdown timer
     useEffect(() => {
         const timer = setInterval(() => {
-            setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
+            setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
         }, 1000);
         return () => clearInterval(timer);
     }, []);
@@ -25,228 +47,307 @@ const TestInterface = () => {
         const h = Math.floor(seconds / 3600);
         const m = Math.floor((seconds % 3600) / 60);
         const s = seconds % 60;
-        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
     };
 
     const handleAnswerSelect = (optionId) => {
-        const newAnswers = { ...selectedAnswers, [currentQuestionIdx]: optionId };
-        setSelectedAnswers(newAnswers);
-
-        const newStatus = [...status];
-        if (newStatus[currentQuestionIdx] !== 'flagged') {
-            newStatus[currentQuestionIdx] = 'answered';
-        }
-        setStatus(newStatus);
+        setSelectedAnswers((prev) => ({ ...prev, [currentQuestionIdx]: optionId }));
+        setStatus((prev) => {
+            const updated = [...prev];
+            if (updated[currentQuestionIdx] !== "flagged") updated[currentQuestionIdx] = "answered";
+            return updated;
+        });
     };
 
     const handleClear = () => {
-        const newAnswers = { ...selectedAnswers };
-        delete newAnswers[currentQuestionIdx];
-        setSelectedAnswers(newAnswers);
-
-        const newStatus = [...status];
-        newStatus[currentQuestionIdx] = 'unvisited';
-        setStatus(newStatus);
+        setSelectedAnswers((prev) => {
+            const updated = { ...prev };
+            delete updated[currentQuestionIdx];
+            return updated;
+        });
+        setStatus((prev) => {
+            const updated = [...prev];
+            updated[currentQuestionIdx] = "unvisited";
+            return updated;
+        });
     };
 
     const handleFlag = (idx) => {
-        const newStatus = [...status];
-        newStatus[idx] = newStatus[idx] === 'flagged' ? (selectedAnswers[idx] ? 'answered' : 'unvisited') : 'flagged';
-        setStatus(newStatus);
+        setStatus((prev) => {
+            const updated = [...prev];
+            updated[idx] =
+                updated[idx] === "flagged"
+                    ? selectedAnswers[idx] ? "answered" : "unvisited"
+                    : "flagged";
+            return updated;
+        });
+    };
+
+    const handleSaveAndNext = () => {
+        if (selectedAnswers[currentQuestionIdx] !== undefined) {
+            setStatus((prev) => {
+                const updated = [...prev];
+                if (updated[currentQuestionIdx] !== "flagged") updated[currentQuestionIdx] = "answered";
+                return updated;
+            });
+        }
+        if (currentQuestionIdx < examQuestions.length - 1) setCurrentQuestionIdx((prev) => prev + 1);
     };
 
     const nextQuestion = () => {
-        if (currentQuestionIdx < examQuestions.length - 1) {
-            setCurrentQuestionIdx(prev => prev + 1);
-        }
+        if (currentQuestionIdx < examQuestions.length - 1) setCurrentQuestionIdx((prev) => prev + 1);
     };
 
     const prevQuestion = () => {
-        if (currentQuestionIdx > 0) {
-            setCurrentQuestionIdx(prev => prev - 1);
-        }
+        if (currentQuestionIdx > 0) setCurrentQuestionIdx((prev) => prev - 1);
     };
 
     const handleSubmit = () => {
-        if (window.confirm("Are you sure you want to submit the test?")) {
-            navigate(`/test-results/${id}`);
-        }
+        if (window.confirm("Are you sure you want to submit the test?")) navigate(`/test-results/${id}`);
     };
 
+    const answeredCount = status.filter((s) => s === "answered").length;
+    const flaggedCount  = status.filter((s) => s === "flagged").length;
+    const skippedCount  = status.filter((s) => s === "skipped").length;
+
+    // Blue = current position progress, orange = remaining — always both visible
+    const bluePct   = Math.round(((currentQuestionIdx + 1) / examQuestions.length) * 100);
+    const orangePct = 100 - bluePct;
+
     return (
-        <div className="h-screen bg-[#F8F9FD] flex flex-col font-sans overflow-hidden">
-            {/* Top Bar */}
-            <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-30">
-                <div className="flex flex-col">
-                    <h1 className="font-bold text-gray-900 leading-tight">Plus Two Bio science - Complete Course</h1>
-                    <p className="text-xs text-blue-600 font-medium tracking-wide">Question {currentQuestionIdx + 1} of {examQuestions.length}</p>
-                </div>
+        <div className="min-h-screen bg-[#EAECF0] flex flex-col font-sans">
 
-                <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 px-4 py-2 rounded-xl">
-                        <Timer className="w-5 h-5 text-gray-500" />
-                        <span className="font-mono text-lg font-bold text-gray-800">{formatTime(timeLeft)}</span>
-                    </div>
-                    <button
-                        onClick={handleSubmit}
-                        className="px-6 py-2.5 bg-[#017CBA] text-white font-bold rounded-xl text-sm shadow-md hover:bg-blue-700 transition-all flex items-center gap-2"
-                    >
-                        <Send className="w-4 h-4" />
-                        Submit Test
-                    </button>
-                </div>
-            </header>
+            {/* ── NavbarDesign is fixed — renders on top of everything ── */}
+            <NavbarDesign />
 
-            {/* Progress Bar Container */}
-            <div className="w-full bg-gray-200 h-2 flex z-20">
-                <div className="bg-blue-500 transition-all h-full" style={{ width: '40%' }}></div>
-                <div className="bg-orange-500 transition-all h-full" style={{ width: '60%' }}></div>
-            </div>
+            {/* ════════════════════════════════════════════════════
+                SPACER: pushes all page content below the fixed navbar.
+                Height matches navHeight measured from the DOM.
+            ════════════════════════════════════════════════════ */}
+            <div style={{ height: navHeight }} className="shrink-0" />
 
-            <div className="flex-grow flex overflow-hidden">
-                {/* Main Exam Area */}
-                <main className="flex-grow p-8 overflow-y-auto">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
-                            {/* Question Header */}
-                            <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-50">
-                                <h3 className="text-xl font-black text-gray-900">Question {currentQuestionIdx + 1}</h3>
-                                <div className="flex items-center gap-4">
-                                    <span className="px-3 py-1 bg-gray-50 text-gray-500 text-[10px] font-bold rounded-lg border border-gray-100 tracking-wider">
-                                        Physics
-                                    </span>
-                                    <button
-                                        onClick={() => handleFlag(currentQuestionIdx)}
-                                        className={`p-2 transition-colors rounded-lg border ${status[currentQuestionIdx] === 'flagged' ? "bg-yellow-50 text-yellow-600 border-yellow-200" : "bg-gray-50 text-gray-400 border-gray-100"
-                                            }`}
-                                    >
-                                        <Flag className="w-4 h-4 fill-current" />
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Question Content */}
-                            <div className="mb-10">
-                                <h2 className="text-2xl font-bold text-gray-800 mb-8 leading-snug">
-                                    {currentQuestion.question}
-                                </h2>
-
-                                <div className="space-y-4">
-                                    {currentQuestion.options.map((option) => (
-                                        <button
-                                            key={option.id}
-                                            onClick={() => handleAnswerSelect(option.id)}
-                                            className={`w-full group flex items-center gap-4 p-5 rounded-2xl border-2 text-left transition-all ${selectedAnswers[currentQuestionIdx] === option.id
-                                                    ? "bg-blue-50/50 border-blue-500 shadow-md shadow-blue-500/5"
-                                                    : "bg-white border-gray-100 hover:border-blue-200 hover:bg-gray-50"
-                                                }`}
-                                        >
-                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg transition-colors ${selectedAnswers[currentQuestionIdx] === option.id
-                                                    ? "bg-blue-500 text-white"
-                                                    : "bg-gray-50 text-gray-400 group-hover:bg-blue-100 group-hover:text-blue-500"
-                                                }`}>
-                                                {option.id}
-                                            </div>
-                                            <span className={`text-lg font-medium ${selectedAnswers[currentQuestionIdx] === option.id ? "text-blue-900" : "text-gray-700"
-                                                }`}>
-                                                {option.text}
-                                            </span>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Navigation Footer */}
-                        <div className="flex items-center justify-between mt-8">
-                            <button
-                                onClick={prevQuestion}
-                                disabled={currentQuestionIdx === 0}
-                                className="px-6 py-3 flex items-center gap-2 text-sm font-bold text-gray-400 disabled:opacity-30 hover:text-gray-600 transition-colors"
-                            >
-                                <ChevronLeft className="w-5 h-5" />
-                                Previous
-                            </button>
-
-                            <div className="flex items-center gap-4">
-                                <button
-                                    onClick={handleClear}
-                                    className="px-6 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition-all flex items-center gap-2"
-                                >
-                                    <Eraser className="w-4 h-4" />
-                                    Clear Response
-                                </button>
-                                <button className="px-6 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition-all flex items-center gap-2">
-                                    <Save className="w-4 h-4" />
-                                    Save & Next
-                                </button>
-                                <button
-                                    onClick={nextQuestion}
-                                    className="px-8 py-3 bg-[#017CBA] text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-500/10 hover:bg-blue-700 transition-all flex items-center gap-2"
-                                >
-                                    Next
-                                    <ChevronRight className="w-5 h-5" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-
-                {/* Right Sidebar - Navigation Panel */}
-                <aside className="w-80 bg-white border-l border-gray-200 p-8 flex flex-col z-10">
-                    <h4 className="text-xs font-black uppercase tracking-widest text-gray-400 mb-6 font-sans">Question Navigation</h4>
-
-                    {/* Numbers Grid */}
-                    <div className="grid grid-cols-5 gap-3 mb-10">
-                        {examQuestions.map((_, idx) => (
-                            <button
-                                key={idx}
-                                onClick={() => setCurrentQuestionIdx(idx)}
-                                className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-black transition-all ${currentQuestionIdx === idx
-                                        ? "bg-[#017CBA] text-white shadow-lg shadow-blue-500/20 scale-110"
-                                        : status[idx] === 'answered'
-                                            ? "bg-gray-200 text-gray-600"
-                                            : status[idx] === 'flagged'
-                                                ? "bg-yellow-400 text-white"
-                                                : "bg-gray-100 text-gray-400 hover:bg-gray-200"
-                                    }`}
-                            >
-                                {idx + 1}
-                            </button>
-                        ))}
+            {/* ════════════════════════════════════════════════════
+                STICKY SUB-HEADER
+                top = navHeight so it sticks right below the navbar,
+                never overlapping it or hiding behind it.
+            ════════════════════════════════════════════════════ */}
+            <div
+                className="sticky z-40 bg-white border-b border-gray-200 shadow-sm"
+                style={{ top: navHeight }}
+            >
+                {/* Title row */}
+                <div className="max-w-[1440px] mx-auto px-6 lg:px-10 py-3 flex items-center justify-between">
+                    <div>
+                        <h1 className="text-[17px] font-bold text-[#1E293B] leading-tight">
+                            Plus Two Bio science - Complete Course
+                        </h1>
+                        <p className="text-[13px] text-[#64748B] mt-0.5">
+                            Question {currentQuestionIdx + 1} of {examQuestions.length}
+                        </p>
                     </div>
 
-                    {/* Legend */}
-                    <div className="space-y-4 mb-10 pb-10 border-b border-gray-50">
-                        <div className="flex items-center gap-3">
-                            <div className="w-4 h-4 bg-emerald-500 rounded-md"></div>
-                            <span className="text-xs font-bold text-gray-500">Answered (0)</span>
+                    <div className="flex items-center gap-3">
+                        {/* Timer chip */}
+                        <div className="flex items-center gap-2 bg-[#F1F5F9] border border-[#E2E8F0] rounded-lg px-3.5 py-2">
+                            <Timer className="w-4 h-4 text-[#64748B]" />
+                            <span className="font-mono text-[15px] font-bold text-[#1E293B] tracking-wide">
+                                {formatTime(timeLeft)}
+                            </span>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <div className="w-4 h-4 bg-yellow-400 rounded-md"></div>
-                            <span className="text-xs font-bold text-gray-500">Flagged (0)</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <div className="w-4 h-4 bg-red-400 rounded-md"></div>
-                            <span className="text-xs font-bold text-gray-500">Skipped</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <div className="w-4 h-4 bg-gray-100 rounded-md border border-gray-200"></div>
-                            <span className="text-xs font-bold text-gray-500">Not Visited</span>
-                        </div>
-                    </div>
-
-                    {/* Submit Section */}
-                    <div className="mt-auto">
+                        {/* Submit Test */}
                         <button
                             onClick={handleSubmit}
-                            className="w-full py-4 bg-red-500/10 text-red-600 font-black rounded-2xl hover:bg-red-500/20 transition-all text-sm tracking-wide"
+                            className="px-4 py-2 border border-[#D1D5DB] rounded-lg text-[13px] font-semibold text-[#374151] bg-white hover:bg-gray-50 transition-all"
                         >
                             Submit Test
                         </button>
                     </div>
-                </aside>
+                </div>
+
+                {/* Dual-color progress bar — constrained to content width */}
+                <div className="max-w-[1440px] mx-auto px-6 lg:px-10 pb-3">
+                    <div className="w-full h-2.5 rounded-full overflow-hidden flex">
+                        <div
+                            className="h-full bg-[#017CBA] transition-all duration-500"
+                            style={{ width: `${bluePct}%` }}
+                        />
+                        <div
+                            className="h-full bg-[#F97316] transition-all duration-500"
+                            style={{ width: `${orangePct}%` }}
+                        />
+                    </div>
+                </div>
             </div>
+
+            {/* ── Page Body ── */}
+            <main className="flex-grow py-8">
+                <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                        {/* ── Left: Question Card + Bottom Actions ── */}
+                        <div className="lg:col-span-8 flex flex-col gap-4">
+
+                            {/* Question card */}
+                            <div className="bg-white rounded-2xl border border-gray-200 p-8">
+
+                                {/* Card header */}
+                                <div className="flex items-center justify-between mb-5">
+                                    <h3 className="text-[15px] font-bold text-[#1E293B]">
+                                        Question {currentQuestionIdx + 1}
+                                    </h3>
+                                    <div className="flex items-center gap-2">
+                                        <span className="px-3.5 py-1 text-[12px] font-medium text-[#475569] bg-white border border-gray-200 rounded-full">
+                                            {currentQuestion.subject ?? "physics"}
+                                        </span>
+                                        <button
+                                            onClick={() => handleFlag(currentQuestionIdx)}
+                                            className={`p-1.5 rounded-lg border transition-colors ${
+                                                status[currentQuestionIdx] === "flagged"
+                                                    ? "bg-[#FFFBEB] text-[#EAB308] border-[#FEF3C7]"
+                                                    : "bg-white text-[#94A3B8] border-gray-200 hover:bg-gray-50"
+                                            }`}
+                                        >
+                                            <Flag className={`w-4 h-4 ${status[currentQuestionIdx] === "flagged" ? "fill-current" : ""}`} />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Question text */}
+                                <p className="text-[17px] font-bold text-[#1E293B] mb-7 leading-snug">
+                                    {currentQuestion.question}
+                                </p>
+
+                                {/* Options */}
+                                <div className="flex flex-col gap-3">
+                                    {currentQuestion.options.map((option) => {
+                                        const isSelected = selectedAnswers[currentQuestionIdx] === option.id;
+                                        return (
+                                            <button
+                                                key={option.id}
+                                                onClick={() => handleAnswerSelect(option.id)}
+                                                className={`w-full flex items-center gap-4 px-5 py-4 rounded-xl border-2 text-left transition-all ${
+                                                    isSelected
+                                                        ? "border-[#017CBA] bg-white shadow-sm"
+                                                        : "border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50"
+                                                }`}
+                                            >
+                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 transition-colors ${
+                                                    isSelected ? "bg-[#017CBA] text-white" : "bg-[#EEF2F6] text-[#64748B]"
+                                                }`}>
+                                                    {option.id}
+                                                </div>
+                                                <span className={`text-[15px] font-medium ${isSelected ? "text-[#1E293B]" : "text-[#475569]"}`}>
+                                                    {option.text}
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* Bottom action row — 3-zone grid */}
+                            <div className="grid grid-cols-3 items-center">
+
+                                {/* Zone 1 — Previous */}
+                                <div className="flex justify-start">
+                                    <button
+                                        onClick={prevQuestion}
+                                        disabled={currentQuestionIdx === 0}
+                                        className="flex items-center gap-1.5 px-5 py-2.5 border border-gray-200 rounded-lg text-sm font-semibold text-[#475569] bg-white hover:bg-gray-50 disabled:opacity-40 transition-all"
+                                    >
+                                        <ChevronLeft className="w-4 h-4" />
+                                        Previous
+                                    </button>
+                                </div>
+
+                                {/* Zone 2 — Clear + Save & Next (centered) */}
+                                <div className="flex justify-center items-center gap-3">
+                                    <button
+                                        onClick={handleClear}
+                                        className="px-5 py-2.5 border border-gray-200 rounded-lg text-sm font-semibold text-[#475569] bg-white hover:bg-gray-50 transition-all"
+                                    >
+                                        Clear Response
+                                    </button>
+                                    <button
+                                        onClick={handleSaveAndNext}
+                                        className="px-5 py-2.5 border border-gray-200 rounded-lg text-sm font-semibold text-[#475569] bg-white hover:bg-gray-50 transition-all"
+                                    >
+                                        Save &amp; Next
+                                    </button>
+                                </div>
+
+                                {/* Zone 3 — Next */}
+                                <div className="flex justify-end">
+                                    <button
+                                        onClick={nextQuestion}
+                                        disabled={currentQuestionIdx === examQuestions.length - 1}
+                                        className="flex items-center gap-1.5 px-6 py-2.5 bg-[#017CBA] text-white rounded-lg text-sm font-bold hover:bg-blue-700 disabled:opacity-40 transition-all shadow-md shadow-blue-100"
+                                    >
+                                        Next
+                                        <ChevronRight className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* ── Right: Sidebar ── */}
+                        <div className="lg:col-span-4 self-start">
+                            <div className="bg-white rounded-2xl border border-gray-200 p-6">
+                                <h4 className="text-[11px] font-bold uppercase tracking-widest text-[#64748B] mb-4">
+                                    Question Navigation
+                                </h4>
+
+                                {/* Question number buttons */}
+                                <div className="flex flex-wrap gap-2 mb-5">
+                                    {examQuestions.map((_, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setCurrentQuestionIdx(idx)}
+                                            className={`w-11 h-11 rounded-xl flex items-center justify-center text-sm font-bold transition-all border ${
+                                                currentQuestionIdx === idx
+                                                    ? "bg-[#017CBA] text-white border-[#017CBA] shadow-md shadow-blue-100"
+                                                    : status[idx] === "answered"
+                                                    ? "bg-[#22C55E] text-white border-[#22C55E]"
+                                                    : status[idx] === "flagged"
+                                                    ? "bg-[#EAB308] text-white border-[#EAB308]"
+                                                    : status[idx] === "skipped"
+                                                    ? "bg-[#EF4444] text-white border-[#EF4444]"
+                                                    : "bg-[#F1F5F9] text-[#94A3B8] border-[#E2E8F0]"
+                                            }`}
+                                        >
+                                            {idx + 1}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* Legend */}
+                                <div className="space-y-2.5 mb-5">
+                                    {[
+                                        { color: "#22C55E", label: `Answered (${answeredCount})` },
+                                        { color: "#EAB308", label: `Flagged (${flaggedCount})` },
+                                        { color: "#EF4444", label: `Skipped (${skippedCount})` },
+                                        { color: "#CBD5E1", label: "Not Visited" },
+                                    ].map(({ color, label }) => (
+                                        <div key={label} className="flex items-center gap-3">
+                                            <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: color }} />
+                                            <span className="text-[13px] text-[#475569]">{label}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Submit Test */}
+                                <button
+                                    onClick={handleSubmit}
+                                    className="w-full py-3 bg-[#EF4444] text-white font-bold rounded-xl hover:bg-red-600 transition-all text-[14px] shadow-lg shadow-red-100"
+                                >
+                                    Submit Test
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
         </div>
     );
 };
