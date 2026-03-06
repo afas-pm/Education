@@ -19,14 +19,14 @@ const Footer = () => {
                 {/* ════════════════════════════════════════════
                     GRID LAYOUT
                     mobile  : 1 col  (each section full-width, stacked)
-                    tablet  : 2 cols (brand+quicklinks | support+contact)
+                    tablet  : 2 cols (Brand & Contact full width, Links split)
                     desktop : 4 cols (one per section)
                     Gap is tighter on mobile to avoid excessive spacing.
                 ════════════════════════════════════════════ */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
 
                     {/* ── Brand ── */}
-                    <div>
+                    <div className="sm:col-span-2 lg:col-span-1">
                         <div className="flex items-center gap-2 mb-5">
                             <GraduationCap className="w-7 h-7 text-blue-400 shrink-0" />
                             <h2 className="text-[18px] font-bold text-white">EduPlatform</h2>
@@ -90,7 +90,7 @@ const Footer = () => {
                     </div>
 
                     {/* ── Contact Info ── */}
-                    <div>
+                    <div className="sm:col-span-2 lg:col-span-1">
                         <h3 className="text-[15px] font-bold text-white mb-5">Contact Info</h3>
                         <div className="space-y-4">
                             <div className="flex items-center gap-3">
